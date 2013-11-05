@@ -82,9 +82,9 @@ class Requirement(MappedBase):
             backref=backref('parent', remote_side='Requirement.req_id',
             lazy='joined', join_depth=3))
     use_cases = relationship('UseCase', secondary=_uc_req, cascade='all',
-            lazy='joined', join_depth=1)
+            lazy='joined', join_depth=3)
     tests = relationship('SystemTest', secondary=_req_test, cascade='all',
-            lazy='joined', join_depth=1)
+            lazy='joined', join_depth=3)
     source = relationship('Source', lazy='joined', join_depth=3, uselist=False)
 
     def __init__(self, req_id, description, req_type, priority, source_id,
