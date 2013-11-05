@@ -33,6 +33,10 @@ class ItemDisplay(QtGui.QWidget):
 
     @QtCore.Slot(QtCore.QModelIndex)
     def _handle_view_pressed(self, index):
+        """Informs the parent widget (observer) that a checkbox has been
+        toggled so the content of the display has changed and needs to be
+        saved in order to become persistent.
+        """
         if index.column() == 2:
             self.content_changed.emit()
 
@@ -44,6 +48,8 @@ class RequirementDisplay(ItemDisplay):
         super(RequirementDisplay, self).__init__(requirement, parent)
 
     def _create_content(self):
+        """Creates the form that is shown in the requirement display.
+        """
         # form fields
         name_label = QtGui.QLabel(u'Nome', self)
         self._name_input = QtGui.QLineEdit(self)
@@ -109,6 +115,9 @@ class RequirementDisplay(ItemDisplay):
         self._uc_input.pressed.connect(self._handle_view_pressed)
 
     def save(self):
+        """Dispatches a series of events to inform the controller about those
+        (and only those) changes that have been operated by the user.
+        """
         new_req_id = self._name_input.text()
         new_description = self._description_input.toPlainText()
         new_priority = self._priority_input.currentText()
@@ -134,6 +143,7 @@ class RequirementDisplay(ItemDisplay):
         if self.item.parent_id != new_parent_id:
             self.fire_event.emit('update_requirement_parent_id',
                     {'req_id': new_req_id, 'parent_id': new_parent_id})
+        # these are performed always (changes will be detected later)
         self.fire_event.emit('update_requirement_associations', {
                 'req_id': new_req_id, 'newly_associated_tests':
                 self._test_input.model().associated_test_ids,
@@ -148,6 +158,8 @@ class UseCaseDisplay(ItemDisplay):
         super(UseCaseDisplay, self).__init__(use_case, parent)
 
     def _create_content(self):
+        """Creates the form that is shown in the use case display.
+        """
         # form fields
         name_label = QtGui.QLabel(u'Nome', self)
         self._name_input = QtGui.QLineEdit(self)
@@ -182,6 +194,9 @@ class UseCaseDisplay(ItemDisplay):
         self._requirements_input.pressed.connect(self._handle_view_pressed)
 
     def save(self):
+        """Dispatches a series of events to inform the controller about those
+        (and only those) changes that have been operated by the user.
+        """
         new_uc_id = self._name_input.text()
         new_description = self._description_input.toPlainText()
         new_parent_id = self._parent_id_input.currentText() or None
@@ -206,6 +221,8 @@ class TestDisplay(ItemDisplay):
         super(TestDisplay, self).__init__(test, parent)
 
     def _create_content(self):
+        """Creates the form that is shown in the test display.
+        """
         # form fields
         test_id_label = QtGui.QLabel(u'Nome', self)
         self._test_id_input = QtGui.QLineEdit(self)
@@ -230,6 +247,9 @@ class TestDisplay(ItemDisplay):
         self._test_id_input.textChanged.connect(self.content_changed)
 
     def save(self):
+        """Dispatches a series of events to inform the controller about those
+        (and only those) changes that have been operated by the user.
+        """
         new_test_id = self._test_id_input.text()
         new_description = self._description_input.toPlainText()
         if self.item.test_id != new_test_id:
