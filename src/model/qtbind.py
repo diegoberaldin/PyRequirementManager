@@ -180,8 +180,8 @@ class ItemModel(QtCore.QAbstractItemModel):
 
     @classmethod
     def _get_top_level_items(cls):
-        """This hook method should be subclassed to obtain a list of those IDs
-        corresponding to items which have no parent.
+        """This hook method should be implemented in subclasses to obtain a
+        list of those IDs corresponding to items with no parent.
         """
         raise NotImplementedError('Implement me!')
 
@@ -197,7 +197,7 @@ class ItemModel(QtCore.QAbstractItemModel):
 
     def flags(self, index=QtCore.QModelIndex()):
         """Returns an integer defining item properties, valid index will always
-        point to items that are enabled and selectable.
+        point to items that are enabled and can be selected.
         """
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled
@@ -349,7 +349,7 @@ class ItemListModel(QtCore.QAbstractItemModel):
         raise NotImplementedError('Implement me!')
 
     def flags(self, index=QtCore.QModelIndex()):
-        """Items of this model are selectable and enabled by default.
+        """Items of this model are enabled and can be selected by default.
         """
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled
