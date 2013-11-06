@@ -110,7 +110,7 @@ def _handle_update_requirement_id(req_id, new_req_id):
     """
     with _extreme_caution():
         mdl.dal.update_requirement_id(req_id, new_req_id)
-        mdl.get_requirement_model().initialize()
+        mdl.get_requirement_model().update_item_id(req_id, new_req_id)
 
 
 def _handle_update_requirement_parent_id(req_id, parent_id):
@@ -155,7 +155,7 @@ def _handle_update_test_id(test_id, new_test_id):
     """
     with _extreme_caution():
         mdl.dal.update_test_id(test_id, new_test_id)
-        mdl.get_test_model().initialize()
+        mdl.get_test_model().update_item_id(test_id, new_test_id)
 
 
 def _handle_update_use_case_associations(uc_id, newly_associated_requirements):
@@ -175,7 +175,7 @@ def _handle_update_use_case_id(uc_id, new_uc_id):
     """
     with _extreme_caution():
         mdl.dal.update_use_case_id(uc_id, new_uc_id)
-        mdl.get_use_case_model().initialize()
+        mdl.get_use_case_model().update_item_id(uc_id, new_uc_id)
 
 
 def _handle_update_use_case_parent_id(uc_id, parent_id):

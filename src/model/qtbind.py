@@ -137,6 +137,14 @@ class ItemModel(QtCore.QAbstractItemModel):
             parent.children.append(new_child)
             self.endInsertRows()
 
+    def update_item_id(self, old_id, new_id):
+        """Changes the ID of the item with the given old ID to the new one.
+        """
+        item = self._search_forest(old_id)
+        index = self.createIndex(0, 0, item)
+        item.item_id = new_id
+        self.dataChanged.emit(index, index)
+
     @classmethod
     def _get_top_level_items(cls):
         """This hook method should be subclasses to obtain a list of those IDs
