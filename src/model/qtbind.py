@@ -87,6 +87,7 @@ class ItemModel(QtCore.QAbstractItemModel):
         """Rebuilds the internal data structure based on the DB.
         """
         self.beginResetModel()
+        self._item_forest = []
         for item_id in self._get_top_level_items():
             # creates the forest as a list of trees
             self._item_forest.append(self._generate_tree(item_id))
