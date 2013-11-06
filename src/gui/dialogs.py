@@ -6,6 +6,12 @@ from src import model as mdl
 
 
 class CreateItemDialog(QtGui.QDialog):
+    """Abstract base class for all dialogs used to create new items (i.e.
+    requirements, use cases and tests). All such dialogs must expose a 'data'
+    attribute where the information is stored as a dictionary. Moreover, the
+    hook method '_create_form' must be implemented by subclasses in order to
+    have the content of the dialog window built correctly.
+    """
     def __init__(self, parent):
         super(CreateItemDialog, self).__init__(parent)
         self.data = None
@@ -13,15 +19,21 @@ class CreateItemDialog(QtGui.QDialog):
         self._create_form()
 
     def _create_form(self):
+        """Hook method used to create the input form for the new item.
+        """
         raise NotImplementedError('Implement me!')
 
 
 class CreateRequirementDialog(CreateItemDialog):
+    """Dialog window used to create a new requirement.
+    """
     def __init__(self, parent):
         super(CreateRequirementDialog, self).__init__(parent)
         self.setWindowTitle(u'Nuovo requisito')
 
     def _create_form(self):
+        """Implements the base class method to create a suitable form.
+        """
         # form fields
         req_id_label = QtGui.QLabel(u'Nome', self)
         self._req_id_input = QtGui.QLineEdit(self)
@@ -61,14 +73,21 @@ class CreateRequirementDialog(CreateItemDialog):
 
     @QtCore.Slot()
     def _handle_id_input_changed(self, text):
+        """Guesses what the name of the parent requirement may be by extracting
+        the part before the dot (') and, if it corresponds to some existing
+        requirements, sets the combobox input index to point to that element.
+        """
         chop_idx = text.rfind('.')
         guessed_parent_id = text[:chop_idx]
         id_list = self._parent_id_input.model().stringList()
-        if guessed_parent_id in id_list:
+        if guessed_parent_id and guessed_parent_id in id_list:
             index = id_list.index(guessed_parent_id)
             self._parent_id_input.setCurrentIndex(index)
 
     def accept(self):
+        """Extracts the information provided by the user in the input form and
+        populates the internal 'data' dictionary for the parent to use later.
+        """
         self.data = {'req_id': self._req_id_input.text(),
                 'description': self._description_input.toPlainText(),
                 'req_type': self._req_type_input.currentText(),
@@ -80,11 +99,15 @@ class CreateRequirementDialog(CreateItemDialog):
 
 
 class CreateUseCaseDialog(CreateItemDialog):
+    """Dialog window used to create a new use case.
+    """
     def __init__(self, parent):
         super(CreateUseCaseDialog, self).__init__(parent)
         self.setWindowTitle(u'Nuovo caso d\'uso')
 
     def _create_form(self):
+        """Implements the base class method to create a suitable form.
+        """
         # form fields
         uc_id_label = QtGui.QLabel(u'Nome', self)
         self._uc_id_input = QtGui.QLineEdit(self)
@@ -111,14 +134,21 @@ class CreateUseCaseDialog(CreateItemDialog):
 
     @QtCore.Slot()
     def _handle_id_input_changed(self, text):
+        """Guesses what the name of the parent use case may be by extracting
+        the part before the dot (') and, if it corresponds to some existing
+        requirements, sets the combobox input index to point to that element.
+        """
         chop_idx = text.rfind('.')
         guessed_parent_id = text[:chop_idx]
         id_list = self._parent_id_input.model().stringList()
-        if guessed_parent_id in id_list:
+        if guessed_parent_id and guessed_parent_id in id_list:
             index = id_list.index(guessed_parent_id)
             self._parent_id_input.setCurrentIndex(index)
 
     def accept(self):
+        """Extracts the information provided by the user in the input form and
+        populates the internal 'data' dictionary for the parent to use later.
+        """
         self.data = {'uc_id': self._uc_id_input.text(),
                 'image': None,
                 'description': self._description_input.toPlainText(),
@@ -127,11 +157,15 @@ class CreateUseCaseDialog(CreateItemDialog):
 
 
 class CreateTestDialog(CreateItemDialog):
+    """Dialog window used to create a new test.
+    """
     def __init__(self, parent):
         super(CreateTestDialog, self).__init__(parent)
         self.setWindowTitle(u'Nuovo test')
 
     def _create_form(self):
+        """Implements the base class method to create a suitable form.
+        """
         # form fields
         test_id_label = QtGui.QLabel(u'Nome', self)
         self._test_id_input = QtGui.QLineEdit(self)
@@ -149,7 +183,9 @@ class CreateTestDialog(CreateItemDialog):
         self.layout().addWidget(button_box)
 
     def accept(self):
+        """Extracts the information provided by the user in the input form and
+        populates the internal 'data' dictionary for the parent to use later.
+        """
         self.data = {'test_id': self._test_id_input.text(),
-                'description': self._description_input.toPlainText()
-        }
+                'description': self._description_input.toPlainText()}
         super(CreateTestDialog, self).accept()

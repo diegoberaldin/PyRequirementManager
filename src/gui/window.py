@@ -37,6 +37,8 @@ class MainWindow(QtGui.QMainWindow):
         self.setMinimumSize(_WINDOW_WIDTH, _WINDOW_HEIGHT)
 
     def display_message(self, message):
+        """Displays an error message in the main user interface.
+        """
         QtGui.QMessageBox.critical(self, u'Errore', message)
 
 
@@ -55,6 +57,10 @@ class MainWidget(QtGui.QWidget):
         self._create_central_part()
 
     def _create_actions(self):
+        """Initializes the actions that will be used to create toolbars and
+        menus. The actions correspond to creating a new item, saving it after
+        it gets changed or deleting some existing item.
+        """
         self._new_action = QtGui.QAction(
                 self.style().standardIcon(QtGui.QStyle.SP_FileDialogNewFolder),
                 u'Crea nuovo elemento (Ctrl+N)', self)
@@ -149,10 +155,18 @@ class MainWidget(QtGui.QWidget):
 
     @QtCore.Slot()
     def _handle_display_content_changed(self):
+        """When a sub-widget informs the central widget of some change having
+        happened to its content, the save action is activated so that when the
+        display changes its content will be persisted on disk.
+        """
         self._save_action.setEnabled(True)
 
     @QtCore.Slot()
     def _handle_save(self):
+        """Saves the content of the current display (deferring to the latter
+        the responsibility of dispatching the correct events) and disables the
+        save action since there is no need for it being active any longer.
+        """
         if self._save_action.isEnabled():
             self._display.save()
         self._save_action.setEnabled(False)
