@@ -110,9 +110,9 @@ class RequirementDisplay(ItemDisplay):
         self._parent_id_input.currentIndexChanged.connect(self.content_changed)
         self._priority_input.currentIndexChanged.connect(self.content_changed)
         self._source_input.currentIndexChanged.connect(self.content_changed)
-        self._test_input.pressed.connect(self._handle_view_pressed)
+        self._test_input.clicked.connect(self._handle_view_pressed)
         self._type_input.currentIndexChanged.connect(self.content_changed)
-        self._uc_input.pressed.connect(self._handle_view_pressed)
+        self._uc_input.clicked.connect(self._handle_view_pressed)
 
     def save(self):
         """Dispatches a series of events to inform the controller about those
@@ -191,7 +191,7 @@ class UseCaseDisplay(ItemDisplay):
         self._description_input.textChanged.connect(self.content_changed)
         self._name_input.textChanged.connect(self.content_changed)
         self._parent_id_input.currentIndexChanged.connect(self.content_changed)
-        self._requirements_input.pressed.connect(self._handle_view_pressed)
+        self._requirements_input.clicked.connect(self._handle_view_pressed)
 
     def save(self):
         """Dispatches a series of events to inform the controller about those
@@ -243,7 +243,7 @@ class TestDisplay(ItemDisplay):
         self.layout().addRow(requirements_label, self._requirements_input)
         # signal connections
         self._description_input.textChanged.connect(self.content_changed)
-        self._requirements_input.pressed.connect(self._handle_view_pressed)
+        self._requirements_input.clicked.connect(self._handle_view_pressed)
         self._test_id_input.textChanged.connect(self.content_changed)
 
     def save(self):
