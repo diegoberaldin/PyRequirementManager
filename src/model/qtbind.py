@@ -137,12 +137,13 @@ class ItemModel(QtCore.QAbstractItemModel):
         """
         if not self.hasIndex(row, column, parent):
             return QtCore.QModelIndex()
-        item = parent.internalPointer()
-        if not item:  # descending from the tree 'root', so access first level
+        if not parent.isValid():
+            # descending from the tree 'root', so access first level items
             return self.createIndex(row, column, self._item_forest[row])
-        if column < self.columnCount() and row < len(item.children):
+        children = parent.internalPointer().children
+        if column < self.columnCount() and row < len(children):
             # access further level items
-            return self.createIndex(row, column, item.children[row])
+            return self.createIndex(row, column, children[row])
 
     def parent(self, index=QtCore.QModelIndex()):
         """Allows views to go one step backward in the tree structure, i.e.
