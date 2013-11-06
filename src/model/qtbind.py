@@ -178,6 +178,45 @@ class ItemModel(QtCore.QAbstractItemModel):
         self.endInsertRows()
         del item
 
+    def update_item_parent(self, item_id, new_parent_id):
+        """This is responsible for moving some piece of tree around in the
+        tree model and informing the view about the changes occurred.
+        """
+        item = self._search_forest(item_id)
+        index = self.createIndex(0, 0, item)
+        old_parent_index = self.parent(index)
+        new_parent = self._search_forest(new_parent_id)
+        if not new_parent:  # it has become first level
+            new_parent_index = QtCore.QModelIndex()
+        else:  # it gets moved somewhere else in the forest
+            new_parent_index = self.createIndex(0, 0, new_parent)
+        # determines the old row number
+        if item.parent:
+            row = item.parent.children.index(item)
+        else:
+            row = self._item_forest.index(item)
+        # determines the new row number
+        if new_parent:
+            new_row = len(new_parent.children)
+        else:
+            new_row = len(self._item_forest)
+        # begin the actual operation
+        self.beginMoveRows(
+                old_parent_index, row, row, new_parent_index, new_row)
+        # removes the item from its parent's children
+        if item.parent:
+            item.parent.children.remove(item)
+        else:
+            self._item_forest.remove(item)
+        # appends it to the list of its new siblings
+        if new_parent:
+            new_parent.children.append(item)
+        else:
+            self._item_forest.append(item)
+        # reparents the item
+        item.parent = new_parent
+        self.endMoveRows()
+
     @classmethod
     def _get_top_level_items(cls):
         """This hook method should be implemented in subclasses to obtain a

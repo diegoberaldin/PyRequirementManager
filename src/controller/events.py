@@ -117,7 +117,7 @@ def _handle_update_requirement_parent_id(req_id, parent_id):
     """Updates the parent ID of the requirement with the given ID.
     """
     mdl.dal.update_requirement_parent_id(req_id, parent_id)
-    mdl.get_requirement_model().initialize()
+    mdl.get_requirement_model().update_item_parent(req_id, parent_id)
 
 
 def _handle_update_requirement_priority(req_id, priority):
@@ -182,4 +182,4 @@ def _handle_update_use_case_parent_id(uc_id, parent_id):
     """Updates the parent ID of a given use case.
     """
     mdl.dal.update_use_case_parent_id(uc_id, parent_id)
-    mdl.get_use_case_model().initialize()
+    mdl.get_use_case_model().update_item_parent(uc_id, parent_id)
