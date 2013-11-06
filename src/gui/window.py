@@ -5,7 +5,12 @@ from PySide import QtCore, QtGui
 from src import APPNAME, model as mdl
 from src.gui import dialogs as dlg, displays as dsp
 
-
+# window default width
+_WINDOW_WIDTH = 900
+# window default height
+_WINDOW_HEIGHT = 500
+# maximum left column width
+_LEFT_COLUMN_WIDTH = 200
 # single instance of the application main window
 _mw = None
 
@@ -29,7 +34,7 @@ class MainWindow(QtGui.QMainWindow):
         mw = MainWidget(self)
         mw.fire_event.connect(controller.handle_event)
         self.setCentralWidget(mw)
-        self.setMinimumSize(900, 500)
+        self.setMinimumSize(_WINDOW_WIDTH, _WINDOW_HEIGHT)
 
     def display_message(self, message):
         QtGui.QMessageBox.critical(self, u'Errore', message)
@@ -95,7 +100,7 @@ class MainWidget(QtGui.QWidget):
         """
         self._splitter = QtGui.QSplitter(self)
         self._view = QtGui.QTreeView(self)
-        self._view.setFixedWidth(150)
+        self._view.setMaximumWidth(_LEFT_COLUMN_WIDTH)
         self._view.setAlternatingRowColors(True)
         self._view.clicked.connect(self._handle_view_clicked)
         self._view.setModel(mdl.get_requirement_model())

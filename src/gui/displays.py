@@ -4,6 +4,13 @@ from PySide import QtCore, QtGui
 
 from src import model as mdl
 
+# size of the first column in embedded views
+_1ST_COLUMN_WIDTH = 100
+# size of the second column in embedded views
+_2ND_COLUMN_WIDTH = 400
+# size of the third column in embedded views
+_3RD_COLUMN_WIDTH = 50
+
 
 class ItemDisplay(QtGui.QWidget):
     """Base class for those widget which are used to display items in the
@@ -87,14 +94,16 @@ class RequirementDisplay(ItemDisplay):
         self._uc_input = QtGui.QTreeView(self)
         self._uc_input.setModel(mdl.get_use_case_list_model(self.item))
         self._uc_input.setAlternatingRowColors(True)
-        self._uc_input.header().resizeSection(1, 400)
-        self._uc_input.header().resizeSection(2, 50)
+        self._uc_input.header().resizeSection(0, _1ST_COLUMN_WIDTH)
+        self._uc_input.header().resizeSection(1, _2ND_COLUMN_WIDTH)
+        self._uc_input.header().resizeSection(2, _3RD_COLUMN_WIDTH)
         test_label = QtGui.QLabel(u'Test', self)
         self._test_input = QtGui.QTreeView(self)
         self._test_input.setModel(mdl.get_test_list_model(self.item))
         self._test_input.setAlternatingRowColors(True)
-        self._test_input.header().resizeSection(1, 400)
-        self._test_input.header().resizeSection(2, 50)
+        self._test_input.header().resizeSection(0, _1ST_COLUMN_WIDTH)
+        self._test_input.header().resizeSection(1, _2ND_COLUMN_WIDTH)
+        self._test_input.header().resizeSection(2, _3RD_COLUMN_WIDTH)
         # puts it all together
         self.layout().addRow(name_label, self._name_input)
         self.layout().addRow(description_label, self._description_input)
@@ -180,8 +189,9 @@ class UseCaseDisplay(ItemDisplay):
         self._requirements_input.setModel(
                 mdl.get_requirement_list_model(self.item))
         self._requirements_input.setAlternatingRowColors(True)
-        self._requirements_input.header().resizeSection(1, 400)
-        self._requirements_input.header().resizeSection(2, 50)
+        self._requirements_input.header().resizeSection(0, _1ST_COLUMN_WIDTH)
+        self._requirements_input.header().resizeSection(1, _2ND_COLUMN_WIDTH)
+        self._requirements_input.header().resizeSection(2, _3RD_COLUMN_WIDTH)
         # puts it all together
         self.layout().addRow(name_label, self._name_input)
         self.layout().addRow(description_label, self._description_input)
@@ -235,8 +245,9 @@ class TestDisplay(ItemDisplay):
         self._requirements_input.setModel(
                 mdl.get_requirement_list_model(self.item))
         self._requirements_input.setAlternatingRowColors(True)
-        self._requirements_input.header().resizeSection(1, 400)
-        self._requirements_input.header().resizeSection(2, 50)
+        self._requirements_input.header().resizeSection(0, _1ST_COLUMN_WIDTH)
+        self._requirements_input.header().resizeSection(1, _2ND_COLUMN_WIDTH)
+        self._requirements_input.header().resizeSection(2, _3RD_COLUMN_WIDTH)
         # puts it all together
         self.layout().addRow(test_id_label, self._test_id_input)
         self.layout().addRow(description_label, self._description_input)
