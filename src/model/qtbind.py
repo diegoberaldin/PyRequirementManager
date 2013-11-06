@@ -98,6 +98,46 @@ class ItemModel(QtCore.QAbstractItemModel):
         raise NotImplementedError('Implement me!')
 
     @classmethod
+    def _find_in_tree(cls, item, item_id):
+        """Returns a reference to the ItemNode with the given item_id if it is
+        found in the tree rooted in the given item, None otherwise.
+        """
+        if item.item_id == item_id:
+            return item
+        for child in item.children:
+            rv = cls._find_in_tree(child, item_id)
+            if rv:  # stop recurring if the desired item has been found
+                return rv
+
+    def _search_forest(self, item_id):
+        """Search the whole list of trees for a node with the given item ID.
+        """
+        for tree in self._item_forest:
+            rv = self._find_in_tree(tree, item_id)
+            if rv:  # stop iterating once the item has been found
+                return rv
+
+    def append_child_to_parent(self, item_id, parent_id=None):
+        """Appends a new item in the correct place in the model, notifying the
+        associated views of the change happened.
+        """
+        if not parent_id:  # adding a top level item
+            child_count = len(self._item_forest)
+            parent_index = self.createIndex(0, 0, None)
+            self.beginInsertRows(parent_index, child_count, child_count + 1)
+            new_child = ItemNode(item_id)
+            self._item_forest.append(new_child)
+            self.endInsertRows()
+        else:  # adding an item as a leaf in some tree (where the parent is)
+            parent = self._search_forest(parent_id)
+            parent_index = self.createIndex(0, 0, parent)
+            child_count = len(parent.children)
+            self.beginInsertRows(parent_index, child_count, child_count + 1)
+            new_child = ItemNode(item_id, parent)
+            parent.children.append(new_child)
+            self.endInsertRows()
+
+    @classmethod
     def _get_top_level_items(cls):
         """This hook method should be subclasses to obtain a list of those IDs
         corresponding to items which have no parent.

@@ -48,7 +48,8 @@ def _handle_create_requirement(data):
     """
     with _extreme_caution():
         mdl.dal.create_requirement(**data)
-        mdl.get_requirement_model().initialize()
+        mdl.get_requirement_model().append_child_to_parent(
+                data['req_id'], data['parent_id'])
 
 
 def _handle_create_test(data):
@@ -56,7 +57,8 @@ def _handle_create_test(data):
     """
     with _extreme_caution():
         mdl.dal.create_test(**data)
-        mdl.get_test_model().initialize()
+        mdl.get_test_model().append_child_to_parent(
+                data['test_id'], data['parent_id'])
 
 
 def _handle_create_use_case(data):
@@ -64,7 +66,8 @@ def _handle_create_use_case(data):
     """
     with _extreme_caution():
         mdl.dal.create_uc(**data)
-        mdl.get_use_case_model().initialize()
+        mdl.get_use_case_model().append_child_to_parent(
+                data['uc_id'], data['parent_id'])
 
 
 def _handle_delete_requirement(req_id):
