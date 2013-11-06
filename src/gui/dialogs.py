@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from PySide import QtGui
+
+from PySide import QtCore, QtGui
 
 from src import model as mdl
 
@@ -24,6 +25,7 @@ class CreateRequirementDialog(CreateItemDialog):
         # form fields
         req_id_label = QtGui.QLabel(u'Nome', self)
         self._req_id_input = QtGui.QLineEdit(self)
+        self._req_id_input.textEdited.connect(self._handle_id_input_changed)
         description_label = QtGui.QLabel(u'Descrizione', self)
         self._description_input = QtGui.QPlainTextEdit(self)
         req_type_label = QtGui.QLabel(u'Tipologia', self)
@@ -57,6 +59,15 @@ class CreateRequirementDialog(CreateItemDialog):
                 QtGui.QDialogButtonBox.Cancel).clicked.connect(self.reject)
         self.layout().addWidget(button_box)
 
+    @QtCore.Slot()
+    def _handle_id_input_changed(self, text):
+        chop_idx = text.rfind('.')
+        guessed_parent_id = text[:chop_idx]
+        id_list = self._parent_id_input.model().stringList()
+        if guessed_parent_id in id_list:
+            index = id_list.index(guessed_parent_id)
+            self._parent_id_input.setCurrentIndex(index)
+
     def accept(self):
         self.data = {'req_id': self._req_id_input.text(),
                 'description': self._description_input.toPlainText(),
@@ -77,6 +88,7 @@ class CreateUseCaseDialog(CreateItemDialog):
         # form fields
         uc_id_label = QtGui.QLabel(u'Nome', self)
         self._uc_id_input = QtGui.QLineEdit(self)
+        self._uc_id_input.textEdited.connect(self._handle_id_input_changed)
         description_label = QtGui.QLabel(u'Descrizione', self)
         self._description_input = QtGui.QPlainTextEdit(self)
         parent_id_label = QtGui.QLabel(u'Genitore', self)
@@ -96,6 +108,15 @@ class CreateUseCaseDialog(CreateItemDialog):
         button_box.addButton(
                 QtGui.QDialogButtonBox.Cancel).clicked.connect(self.reject)
         self.layout().addWidget(button_box)
+
+    @QtCore.Slot()
+    def _handle_id_input_changed(self, text):
+        chop_idx = text.rfind('.')
+        guessed_parent_id = text[:chop_idx]
+        id_list = self._parent_id_input.model().stringList()
+        if guessed_parent_id in id_list:
+            index = id_list.index(guessed_parent_id)
+            self._parent_id_input.setCurrentIndex(index)
 
     def accept(self):
         self.data = {'uc_id': self._uc_id_input.text(),
