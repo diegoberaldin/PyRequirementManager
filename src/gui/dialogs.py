@@ -74,7 +74,7 @@ class CreateRequirementDialog(CreateItemDialog):
     @QtCore.Slot()
     def _handle_id_input_changed(self, text):
         """Guesses what the name of the parent requirement may be by extracting
-        the part before the dot (') and, if it corresponds to some existing
+        the part before the dot (.) and, if it corresponds to some existing
         requirements, sets the combobox input index to point to that element.
         """
         chop_idx = text.rfind('.')
