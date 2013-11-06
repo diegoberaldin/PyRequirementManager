@@ -87,13 +87,13 @@ class RequirementDisplay(ItemDisplay):
         self._uc_input = QtGui.QTreeView(self)
         self._uc_input.setModel(mdl.get_use_case_list_model(self.item))
         self._uc_input.setAlternatingRowColors(True)
-        self._uc_input.header().resizeSection(1, 250)
+        self._uc_input.header().resizeSection(1, 400)
         self._uc_input.header().resizeSection(2, 50)
         test_label = QtGui.QLabel(u'Test', self)
         self._test_input = QtGui.QTreeView(self)
         self._test_input.setModel(mdl.get_test_list_model(self.item))
         self._test_input.setAlternatingRowColors(True)
-        self._test_input.header().resizeSection(1, 250)
+        self._test_input.header().resizeSection(1, 400)
         self._test_input.header().resizeSection(2, 50)
         # puts it all together
         self.layout().addRow(name_label, self._name_input)
@@ -146,9 +146,9 @@ class RequirementDisplay(ItemDisplay):
         # these are performed always (changes will be detected later)
         self.fire_event.emit('update_requirement_associations', {
                 'req_id': new_req_id, 'newly_associated_tests':
-                self._test_input.model().associated_test_ids,
+                self._test_input.model().associated_item_ids,
                 'newly_associated_use_cases':
-                self._uc_input.model().associated_uc_ids})
+                self._uc_input.model().associated_item_ids})
 
 
 class UseCaseDisplay(ItemDisplay):
@@ -180,7 +180,7 @@ class UseCaseDisplay(ItemDisplay):
         self._requirements_input.setModel(
                 mdl.get_requirement_list_model(self.item))
         self._requirements_input.setAlternatingRowColors(True)
-        self._requirements_input.header().resizeSection(1, 250)
+        self._requirements_input.header().resizeSection(1, 400)
         self._requirements_input.header().resizeSection(2, 50)
         # puts it all together
         self.layout().addRow(name_label, self._name_input)
@@ -211,7 +211,7 @@ class UseCaseDisplay(ItemDisplay):
                     {'uc_id': new_uc_id, 'parent_id': new_parent_id})
         self.fire_event.emit('update_use_case_associations', {
                 'uc_id': new_uc_id, 'newly_associated_requirements':
-                self._requirements_input.model().associated_req_ids})
+                self._requirements_input.model().associated_item_ids})
 
 
 class TestDisplay(ItemDisplay):
@@ -235,7 +235,7 @@ class TestDisplay(ItemDisplay):
         self._requirements_input.setModel(
                 mdl.get_requirement_list_model(self.item))
         self._requirements_input.setAlternatingRowColors(True)
-        self._requirements_input.header().resizeSection(1, 250)
+        self._requirements_input.header().resizeSection(1, 400)
         self._requirements_input.header().resizeSection(2, 50)
         # puts it all together
         self.layout().addRow(test_id_label, self._test_id_input)
@@ -260,4 +260,4 @@ class TestDisplay(ItemDisplay):
                     {'test_id': new_test_id, 'description': new_description})
         self.fire_event.emit('update_test_associations', {
                 'test_id': new_test_id, 'newly_associated_requirements':
-                self._requirements_input.model().associated_req_ids})
+                self._requirements_input.model().associated_item_ids})

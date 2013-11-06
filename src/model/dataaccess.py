@@ -4,6 +4,49 @@ from src.model import database as db
 from src.model.mapping import UseCase, Requirement, Source, SystemTest
 
 
+def get_requirement(req_id):
+    with db.get_session() as session:
+        requirement = session.query(Requirement).filter(
+                Requirement.req_id == req_id).scalar()
+        session.expunge_all()
+        return requirement
+
+
+def get_requirement_children_ids(req_id):
+    with db.get_session() as session:
+        return [req[0] for req in
+                session.query(Requirement.req_id).filter(
+                Requirement.parent_id == req_id).order_by(Requirement.req_id)]
+
+
+def get_top_level_requirement_ids():
+    with db.get_session() as session:
+        return [req[0] for req in
+                session.query(Requirement.req_id).filter(
+                Requirement.parent_id == None).order_by(Requirement.req_id)]
+
+
+def get_use_case(uc_id):
+    with db.get_session() as session:
+        uc = session.query(UseCase).filter(UseCase.uc_id == uc_id).scalar()
+        session.expunge_all()
+        return uc
+
+
+def get_use_case_children_ids(uc_id):
+    with db.get_session() as session:
+        return [uc[0] for uc in
+                session.query(UseCase.uc_id).filter(
+                UseCase.parent_id == uc_id).order_by(UseCase.uc_id)]
+
+
+def get_top_level_use_case_ids():
+    with db.get_session() as session:
+        return [uc[0] for uc in
+                session.query(UseCase.uc_id).filter(
+                UseCase.parent_id == None).order_by(UseCase.uc_id)]
+
+
 def _is_uc_existing(uc_id):
     with db.get_session() as session:
         count = session.query(UseCase).filter(UseCase.uc_id == uc_id).count()
@@ -96,46 +139,37 @@ def get_source_id(source_name):
                 Source.name == source_name).scalar()
 
 
-def get_requirements():
+def get_all_uc_names_and_descriptions():
     with db.get_session() as session:
-        requirements = session.query(Requirement).filter(
-            Requirement.parent_id == None).all()
-        session.expunge_all()
-        return requirements
-
-
-def get_all_uc_name_and_description():
-    with db.get_session() as session:
-        return [{'uc_id': uc[0], 'description': uc[1]}
+        return [{'id': uc[0], 'description': uc[1]}
                 for uc in session.query(UseCase.uc_id, UseCase.description)]
 
 
-def get_all_test_name_and_description():
+def get_all_test_names_and_descriptions():
     with db.get_session() as session:
-        return [{'test_id': test[0], 'description': test[1]}
+        return [{'id': test[0], 'description': test[1]}
                 for test in
                 session.query(SystemTest.test_id, SystemTest.description)]
 
 
-def get_all_requirement_name_and_description():
+def get_all_requirement_names_and_descriptions():
     with db.get_session() as session:
-        return [{'req_id': req[0], 'description': req[1]}
+        return [{'id': req[0], 'description': req[1]}
                 for req in
                 session.query(Requirement.req_id, Requirement.description)]
 
 
-def get_tests():
+def get_top_level_test_ids():
     with db.get_session() as session:
-        tests = session.query(SystemTest).all()
-        session.expunge_all()
-        return tests
+        return [test[0] for test in session.query(SystemTest.test_id)]
 
 
-def get_ucs():
+def get_test(test_id):
     with db.get_session() as session:
-        ucs = session.query(UseCase).filter(UseCase.parent_id == None).all()
+        test = session.query(SystemTest).filter(
+                SystemTest.test_id == test_id).scalar()
         session.expunge_all()
-        return ucs
+        return test
 
 
 def initialize_sources():

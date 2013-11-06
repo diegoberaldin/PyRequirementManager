@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.types import String, Enum, Integer
 
@@ -49,9 +49,6 @@ class UseCase(MappedBase):
             ondelete='CASCADE', onupdate='CASCADE'))
     image = Column(String)
     # relationships
-    children = relationship('UseCase', cascade='all', lazy='joined',
-            join_depth=3, backref=backref('parent',
-            remote_side='UseCase.uc_id', lazy='joined', join_depth=3))
     requirements = relationship('Requirement', secondary=_uc_req,
             cascade='all', lazy='joined', join_depth=1)
 
@@ -78,14 +75,11 @@ class Requirement(MappedBase):
     source_id = Column(Integer, ForeignKey('Sources.source_id',
             onupdate='CASCADE', ondelete='SET NULL'))
     # relationships
-    children = relationship('Requirement', lazy='joined', join_depth=3,
-            backref=backref('parent', remote_side='Requirement.req_id',
-            lazy='joined', join_depth=3))
     use_cases = relationship('UseCase', secondary=_uc_req, cascade='all',
-            lazy='joined', join_depth=3)
+            lazy='joined', join_depth=1)
     tests = relationship('SystemTest', secondary=_req_test, cascade='all',
-            lazy='joined', join_depth=3)
-    source = relationship('Source', lazy='joined', join_depth=3, uselist=False)
+            lazy='joined', join_depth=1)
+    source = relationship('Source', lazy='joined', join_depth=1, uselist=False)
 
     def __init__(self, req_id, description, req_type, priority, source_id,
             parent_id):

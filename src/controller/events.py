@@ -67,16 +67,12 @@ def _handle_delete_requirement(req_id):
     """
     mdl.dal.delete_requirement(req_id)
     mdl.get_requirement_model().initialize()
-    mdl.get_use_case_model().initialize()
-    mdl.get_test_model().initialize()
 
 
 def _handle_delete_test(test_id):
     """Deletes a test and rebuilds all models basing on the DB content.
     """
     mdl.dal.delete_test(test_id)
-    mdl.get_requirement_model().initialize()
-    mdl.get_use_case_model().initialize()
     mdl.get_test_model().initialize()
 
 
@@ -84,31 +80,23 @@ def _handle_delete_use_case(uc_id):
     """Deletes a use case and rebuilds all models basing on the DB content.
     """
     mdl.dal.delete_uc(uc_id)
-    mdl.get_requirement_model().initialize()
     mdl.get_use_case_model().initialize()
-    mdl.get_test_model().initialize()
 
 
 def _handle_update_requirement_associations(req_id, newly_associated_use_cases,
         newly_associated_tests):
     mdl.dal.update_requirement_associations(req_id, newly_associated_use_cases,
         newly_associated_tests)
-    mdl.get_requirement_model().initialize()
-    mdl.get_use_case_model().initialize()
-    mdl.get_test_model().initialize()
 
 
 def _handle_update_requirement_description(req_id, description):
     mdl.dal.update_requirement_description(req_id, description)
-    mdl.get_requirement_model().initialize()
 
 
 def _handle_update_requirement_id(req_id, new_req_id):
     with _extreme_caution():
         mdl.dal.update_requirement_id(req_id, new_req_id)
         mdl.get_requirement_model().initialize()
-        mdl.get_use_case_model().initialize()
-        mdl.get_test_model().initialize()
 
 
 def _handle_update_requirement_parent_id(req_id, parent_id):
@@ -118,57 +106,42 @@ def _handle_update_requirement_parent_id(req_id, parent_id):
 
 def _handle_update_requirement_priority(req_id, priority):
     mdl.dal.update_requirement_priority(req_id, priority)
-    mdl.get_requirement_model().initialize()
 
 
 def _handle_update_requirement_source(req_id, source_name):
     mdl.dal.update_requirement_source(req_id, source_name)
-    mdl.get_requirement_model().initialize()
 
 
 def _handle_update_requirement_type(req_id, req_type):
     mdl.dal.update_requirement_type(req_id, req_type)
-    mdl.get_requirement_model().initialize()
 
 
 def _handle_update_test_associations(test_id, newly_associated_requirements):
     mdl.dal.update_test_associations(test_id, newly_associated_requirements)
-    mdl.get_requirement_model().initialize()
-    mdl.get_use_case_model().initialize()
-    mdl.get_test_model().initialize()
 
 
 def _handle_update_test_description(test_id, description):
     mdl.dal.update_test_description(test_id, description)
-    mdl.get_test_model().initialize()
 
 
 def _handle_update_test_id(test_id, new_test_id):
     with _extreme_caution():
         mdl.dal.update_test_id(test_id, new_test_id)
-        mdl.get_requirement_model().initialize()
-        mdl.get_use_case_model().initialize()
         mdl.get_test_model().initialize()
 
 
 def _handle_update_use_case_associations(uc_id, newly_associated_requirements):
     mdl.dal.update_use_case_associations(uc_id, newly_associated_requirements)
-    mdl.get_requirement_model().initialize()
-    mdl.get_use_case_model().initialize()
-    mdl.get_test_model().initialize()
 
 
 def _handle_update_use_case_description(uc_id, description):
     mdl.dal.update_use_case_description(uc_id, description)
-    mdl.get_use_case_model().initialize()
 
 
 def _handle_update_use_case_id(uc_id, new_uc_id):
     with _extreme_caution():
         mdl.dal.update_use_case_id(uc_id, new_uc_id)
-        mdl.get_requirement_model().initialize()
         mdl.get_use_case_model().initialize()
-        mdl.get_test_model().initialize()
 
 
 def _handle_update_use_case_parent_id(uc_id, parent_id):

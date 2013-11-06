@@ -29,7 +29,7 @@ class MainWindow(QtGui.QMainWindow):
         mw = MainWidget(self)
         mw.fire_event.connect(controller.handle_event)
         self.setCentralWidget(mw)
-        self.setMinimumSize(850, 500)
+        self.setMinimumSize(900, 500)
 
     def display_message(self, message):
         QtGui.QMessageBox.critical(self, u'Errore', message)
@@ -180,11 +180,14 @@ class MainWidget(QtGui.QWidget):
         if len(selection) == 1:
             item = selection.pop()
             if self._view_selector.currentIndex() == 0:  # requirement
-                self._switch_display(dsp.RequirementDisplay(item, self))
+                requirement = mdl.dal.get_requirement(item.item_id)
+                self._switch_display(dsp.RequirementDisplay(requirement, self))
             elif self._view_selector.currentIndex() == 1:  # use case
-                self._switch_display(dsp.UseCaseDisplay(item, self))
+                use_case = mdl.dal.get_use_case(item.item_id)
+                self._switch_display(dsp.UseCaseDisplay(use_case, self))
             else:  # test
-                self._switch_display(dsp.TestDisplay(item, self))
+                test = mdl.dal.get_test(item.item_id)
+                self._switch_display(dsp.TestDisplay(test, self))
 
     def _get_view_selection(self):
         """Extracts the selected item from the left hand column.
