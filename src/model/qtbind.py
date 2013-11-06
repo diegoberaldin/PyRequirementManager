@@ -18,7 +18,7 @@ class ItemNode(object):
     a tree-like data structure with parents an children. These objects are
     used as internal data structures for ItemModels.
     """
-    def __init__(self, item_id, parent):
+    def __init__(self, item_id, parent=None):
         self.item_id = item_id
         self.children = []
         self.parent = parent
@@ -78,12 +78,12 @@ class ItemModel(QtCore.QAbstractItemModel):
         self.initialize()
 
     @classmethod
-    def _generate_tree(cls, item_id, parent_id=None):
+    def _generate_tree(cls, item_id, parent=None):
         """Given an item with the given ID, it recursively generates a tree of
         ItemNodes rooted in the item with the given ID. It internally uses the
         _get_children method to obtain a list of the ID of the item's children.
         """
-        item = ItemNode(item_id, parent_id)
+        item = ItemNode(item_id, parent)
         children_list = cls._get_children(item_id)
         for child_id in children_list:
             item.children.append(cls._generate_tree(child_id, item))
@@ -123,8 +123,8 @@ class ItemModel(QtCore.QAbstractItemModel):
         """
         if not parent_id:  # adding a top level item
             child_count = len(self._item_forest)
-            parent_index = self.createIndex(0, 0, None)
-            self.beginInsertRows(parent_index, child_count, child_count + 1)
+            parent_index = QtCore.QModelIndex()  # this is the ROOT! :)
+            self.beginInsertRows(parent_index, child_count, child_count)
             new_child = ItemNode(item_id)
             self._item_forest.append(new_child)
             self.endInsertRows()
@@ -132,7 +132,7 @@ class ItemModel(QtCore.QAbstractItemModel):
             parent = self._search_forest(parent_id)
             parent_index = self.createIndex(0, 0, parent)
             child_count = len(parent.children)
-            self.beginInsertRows(parent_index, child_count, child_count + 1)
+            self.beginInsertRows(parent_index, child_count, child_count)
             new_child = ItemNode(item_id, parent)
             parent.children.append(new_child)
             self.endInsertRows()
@@ -145,9 +145,42 @@ class ItemModel(QtCore.QAbstractItemModel):
         item.item_id = new_id
         self.dataChanged.emit(index, index)
 
+    def delete_item(self, item_id):
+        """Deletes an item by removing the data from the structure (notifying
+        the view about rows being removed) and, if the item had any children,
+        moves them to become top level items (as this is what happens in the
+        DB since the parent_id field is set to null).
+        """
+        item = self._search_forest(item_id)
+        index = self.createIndex(0, 0, item)
+        parent = item.parent
+        parent_index = self.parent(index)
+        # remove the item from its parent's children
+        if parent:
+            row = parent.children.index(item)
+        else:
+            row = self._item_forest.index(item)
+        self.beginRemoveRows(parent_index, row, row)
+        if parent:
+            parent.children.remove(item)
+        else:
+            self._item_forest.remove(item)
+        self.endRemoveRows()
+        # adds the children to the root of the model (they have no parent)
+        root_index = QtCore.QModelIndex()
+        tree_count = len(self._item_forest)
+        self.beginInsertRows(root_index, tree_count,
+                tree_count + len(item.children) - 1)
+        while item.children:
+            child = item.children.pop()
+            child.parent = None
+            self._item_forest.append(child)
+        self.endInsertRows()
+        del item
+
     @classmethod
     def _get_top_level_items(cls):
-        """This hook method should be subclasses to obtain a list of those IDs
+        """This hook method should be subclassed to obtain a list of those IDs
         corresponding to items which have no parent.
         """
         raise NotImplementedError('Implement me!')

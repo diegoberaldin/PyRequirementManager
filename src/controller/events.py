@@ -74,21 +74,21 @@ def _handle_delete_requirement(req_id):
     """Deletes a requirement and rebuilds all models basing on the DB content.
     """
     mdl.dal.delete_requirement(req_id)
-    mdl.get_requirement_model().initialize()
+    mdl.get_requirement_model().delete_item(req_id)
 
 
 def _handle_delete_test(test_id):
     """Deletes a test and rebuilds all models basing on the DB content.
     """
     mdl.dal.delete_test(test_id)
-    mdl.get_test_model().initialize()
+    mdl.get_test_model().delete_item(test_id)
 
 
 def _handle_delete_use_case(uc_id):
     """Deletes a use case and rebuilds all models basing on the DB content.
     """
     mdl.dal.delete_uc(uc_id)
-    mdl.get_use_case_model().initialize()
+    mdl.get_use_case_model().delete_item(uc_id)
 
 
 def _handle_update_requirement_associations(req_id, newly_associated_use_cases,
