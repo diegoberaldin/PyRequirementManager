@@ -32,6 +32,9 @@ class ApplicationController(QtCore.QObject):
 
 @contextmanager
 def _extreme_caution():
+    """This is used to display informative messages on the UI when naming
+    conflicts are detected at the data persistence level.
+    """
     try:
         yield
     except SQLAlchemyError as exc:

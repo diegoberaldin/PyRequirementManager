@@ -14,6 +14,10 @@ _ucm = None
 
 
 class ItemNode(object):
+    """This is used to represent an item (requirement, test or use case...) in
+    a tree-like data structure with parents an children. These objects are
+    used as internal data structures for ItemModels.
+    """
     def __init__(self, item_id, parent):
         self.item_id = item_id
         self.children = []
@@ -48,14 +52,20 @@ def get_use_case_model():
 
 
 def get_use_case_list_model(requirement):
+    """Returns a use case list model for the given requirement.
+    """
     return UseCaseListModel(requirement)
 
 
 def get_test_list_model(requirement):
+    """Returns a test list model for the given requirement
+    """
     return TestListModel(requirement)
 
 
 def get_requirement_list_model(item):
+    """Returns a requirement list model for the given item (test or use case).
+    """
     return RequirementListModel(item)
 
 
@@ -69,6 +79,10 @@ class ItemModel(QtCore.QAbstractItemModel):
 
     @classmethod
     def _generate_tree(cls, item_id, parent_id=None):
+        """Given an item with the given ID, it recursively generates a tree of
+        ItemNodes rooted in the item with the given ID. It internally uses the
+        _get_children method to obtain a list of the ID of the item's children.
+        """
         item = ItemNode(item_id, parent_id)
         children_list = cls._get_children(item_id)
         for child_id in children_list:
@@ -77,10 +91,17 @@ class ItemModel(QtCore.QAbstractItemModel):
 
     @classmethod
     def _get_children(cls, item_id):
+        """This hook method should be implemented by subclasses to obtain a
+        list of item IDs corresponding to the children of the item with the
+        given item ID.
+        """
         raise NotImplementedError('Implement me!')
 
     @classmethod
     def _get_top_level_items(cls):
+        """This hook method should be subclasses to obtain a list of those IDs
+        corresponding to items which have no parent.
+        """
         raise NotImplementedError('Implement me!')
 
     def initialize(self):
@@ -94,45 +115,67 @@ class ItemModel(QtCore.QAbstractItemModel):
         self.endResetModel()
 
     def flags(self, index=QtCore.QModelIndex()):
+        """Returns an integer defining item properties, valid index will always
+        point to items that are enabled and selectable.
+        """
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
+        """Returns te names of the columns that will be displayed in the view.
+        """
         if (role == QtCore.Qt.DisplayRole and
                 orientation == QtCore.Qt.Horizontal):
             if section == 0:
                 return u'Nome'
 
     def index(self, row, column, parent=QtCore.QModelIndex()):
+        """Allows views to go one step further in the tree starting from
+        the parent index, going down from the invisible root to first level
+        (i.e. orphaned) items or to some child of a parent item.
+        """
         if not self.hasIndex(row, column, parent):
             return QtCore.QModelIndex()
         item = parent.internalPointer()
-        if not item:
+        if not item:  # descending from the tree 'root', so access first level
             return self.createIndex(row, column, self._item_forest[row])
         if column < self.columnCount() and row < len(item.children):
+            # access further level items
             return self.createIndex(row, column, item.children[row])
 
     def parent(self, index=QtCore.QModelIndex()):
+        """Allows views to go one step backward in the tree structure, i.e.
+        obtaining a new index that points to the parent of the current item.
+        """
         if not index.isValid():
             return QtCore.QModelIndex()
         item = index.internalPointer()
         parent = item.parent
-        if not parent:
+        if not parent:  # can't go backwards past the root
             return QtCore.QModelIndex()
         row = parent.children.index(item)
         return self.createIndex(row, 0, parent)
 
     def rowCount(self, parent=QtCore.QModelIndex()):
-        if not parent.isValid():
+        """This boils down to the number of children that the item pointed by
+        the parent index has or the number of trees in the forest if the index
+        corresponds to the 'root' of the model or is invalid.
+        """
+        if not parent.isValid() or not parent.internalPointer():
             return len(self._item_forest)
         item = parent.internalPointer()
         return len(item.children)
 
     def columnCount(self, unused_parent=QtCore.QModelIndex()):
+        """These models only have one column, no matter what the parent is.
+        """
         return 1
 
     def data(self, index=QtCore.QModelIndex(), role=QtCore.Qt.DisplayRole):
+        """Allow views to access the data stored inside the items pointed by
+        model indexes, depending on which column the current index has.
+        """
         if index.isValid() and role == QtCore.Qt.DisplayRole:
             section = index.column()
             item = index.internalPointer()
@@ -141,28 +184,40 @@ class ItemModel(QtCore.QAbstractItemModel):
 
 
 class RequirementModel(ItemModel):
+    """This is used to store the requirement forest (list of trees).
+    """
     def __init__(self):
         super(RequirementModel, self).__init__()
 
     @classmethod
     def _get_children(cls, item_id):
+        """Returns an iterable with all the children of a given requirement.
+        """
         return dal.get_requirement_children_ids(item_id)
 
     @classmethod
     def _get_top_level_items(cls):
+        """Returns an iterable of all those requirements that have no parent.
+        """
         return dal.get_top_level_requirement_ids()
 
 
 class UseCaseModel(ItemModel):
+    """This is used to store the use case forest (list of trees).
+    """
     def __init__(self):
         super(UseCaseModel, self).__init__()
 
     @classmethod
     def _get_children(cls, item_id):
+        """Returns an iterable with all the children of a given requirement.
+        """
         return dal.get_use_case_children_ids(item_id)
 
     @classmethod
     def _get_top_level_items(cls):
+        """Returns an iterable of all those use cases that have no parent.
+        """
         return dal.get_top_level_use_case_ids()
 
 
@@ -174,14 +229,23 @@ class TestModel(ItemModel):
 
     @classmethod
     def _get_children(cls, unused_item_id):
+        """Tests have no children (flat model) so this is always an empty list.
+        """
         return []
 
     @classmethod
     def _get_top_level_items(cls):
+        """Returns an iterable of all those tests that have no parent.
+        """
         return dal.get_top_level_test_ids()
 
 
 class ItemListModel(QtCore.QAbstractItemModel):
+    """This is the base class for all 'flat' models used to represent a list of
+    items (requirements, tests or use cases) that are associated to other items
+    of the business model (requirements to use cases and vice versa, tests to
+    requirements and vice versa).
+    """
     def __init__(self, item):
         super(ItemListModel, self).__init__()
         self._item_data_list = self._get_item_names_and_descriptions()
@@ -189,18 +253,29 @@ class ItemListModel(QtCore.QAbstractItemModel):
 
     @classmethod
     def _get_item_names_and_descriptions(cls):
+        """This must be implemented by subclasses to obtain a sequence of
+        dictionaries having the 'id' and 'description' keys which represent
+        the items being listed.
+        """
         raise NotImplementedError('Implement me!')
 
     @classmethod
     def _get_associated_item_ids(cls, item):
+        """Gets a list of the IDs of those items that are linked to the given
+        item, e.g. the list of use case IDs that are linked to a requirement.
+        """
         raise NotImplementedError('Implement me!')
 
     def flags(self, index=QtCore.QModelIndex()):
+        """Items of this model are selectable and enabled by default.
+        """
         if not index.isValid():
             return QtCore.Qt.ItemIsEnabled
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsUserCheckable
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
+        """Provides views with the required information for displaying headers.
+        """
         if (role == QtCore.Qt.DisplayRole and
                 orientation == QtCore.Qt.Horizontal):
             if section == 0:
@@ -211,20 +286,35 @@ class ItemListModel(QtCore.QAbstractItemModel):
                 return u'Associato'
 
     def rowCount(self, index=QtCore.QModelIndex()):
+        """Since this is a flat model, indexes pointing to first level items
+        have no children, whereas if the index corresponds to the model 'root',
+        it has as many children as are the elements in the internal data list.
+        """
         if index.internalPointer() in self._item_data_list:
             return 0
         return len(self._item_data_list)
 
     def columnCount(self, unused_index=QtCore.QModelIndex()):
+        """These models have a fixed number of columns.
+        """
         return 3
 
     def index(self, row, column, unused_parent=QtCore.QModelIndex()):
+        """The only way to go down in such a model is from the root to one of
+        the first level items, so it returns the corresponding index.
+        """
         return self.createIndex(row, column, self._item_data_list[row])
 
     def parent(self, unused_index=QtCore.QModelIndex()):
+        """The only way to go up is from a first level item to the model 'root'
+        so it returns an invalid index (i.e. an index pointing to the root).
+        """
         return QtCore.QModelIndex()
 
     def data(self, index=QtCore.QModelIndex(), role=QtCore.Qt.DisplayRole):
+        """Allow views to access the information that is stored inside the
+        dictionaries depending on the column that is being displayed.
+        """
         item_data = index.internalPointer()
         section = index.column()
         if role == QtCore.Qt.DisplayRole:
@@ -239,6 +329,10 @@ class ItemListModel(QtCore.QAbstractItemModel):
                 return QtCore.Qt.Unchecked
 
     def setData(self, index, value, role):
+        """This model is editable to a very limited extent, i.e. only items in
+        the third column can be modified by checking or unchecking the
+        corresponding checkbox.
+        """
         section = index.column()
         item_id = index.internalPointer()['id']
         if role == QtCore.Qt.CheckStateRole and section == 2:
@@ -256,39 +350,61 @@ class ItemListModel(QtCore.QAbstractItemModel):
 
 
 class UseCaseListModel(ItemListModel):
+    """This is used to represent the use cases for a given requirement.
+    """
     def __init__(self, item):
         super(UseCaseListModel, self).__init__(item)
 
     @classmethod
     def _get_item_names_and_descriptions(cls):
+        """Returns IDs and descriptions of all uses cases.
+        """
         return dal.get_all_uc_names_and_descriptions()
 
     @classmethod
     def _get_associated_item_ids(cls, item):
+        """Returns an iterable containing the IDs of all those use cases that
+        are linked to the given requirement item.
+        """
         return [uc.uc_id for uc in item.use_cases]
 
 
 class TestListModel(ItemListModel):
+    """This is used to represent the tests for a given requirement.
+    """
     def __init__(self, item):
         super(TestListModel, self).__init__(item)
 
     @classmethod
     def _get_item_names_and_descriptions(cls):
+        """Returns IDs and descriptions of all tests.
+        """
         return dal.get_all_test_names_and_descriptions()
 
     @classmethod
     def _get_associated_item_ids(cls, item):
+        """Returns an iterable containing the IDs of all those tests that
+        are linked to the given requirement item.
+        """
         return [test.test_id for test in item.tests]
 
 
 class RequirementListModel(ItemListModel):
+    """This is used to represent the requirement list that can be associated to
+    a given use case or to a test.
+    """
     def __init__(self, item):
         super(RequirementListModel, self).__init__(item)
 
     @classmethod
     def _get_item_names_and_descriptions(cls):
+        """Returns IDs and descriptions of all requirements.
+        """
         return dal.get_all_requirement_names_and_descriptions()
 
     @classmethod
     def _get_associated_item_ids(cls, item):
+        """Returns an iterable containing the IDs of all those requirements
+        that are linked to the given item (either a use case or a test).
+        """
         [req.req_id for req in item.requirements]
