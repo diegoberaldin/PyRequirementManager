@@ -2,6 +2,8 @@
 
 """This module contains the main application controller and the event handler
 functions that are used to react to inputs coming from the user interface.
+Most of these functions are simple proxies that redirect the operation to the
+model data access layer, decoupling its structure from the user interface.
 """
 
 from contextlib import contextmanager
@@ -88,65 +90,93 @@ def _handle_delete_use_case(uc_id):
 
 def _handle_update_requirement_associations(req_id, newly_associated_use_cases,
         newly_associated_tests):
+    """Updates the use case and test associations for the given requirement.
+    """
     mdl.dal.update_requirement_associations(req_id, newly_associated_use_cases,
         newly_associated_tests)
 
 
 def _handle_update_requirement_description(req_id, description):
+    """Updates the descriptions for the requirement with the given ID.
+    """
     mdl.dal.update_requirement_description(req_id, description)
 
 
 def _handle_update_requirement_id(req_id, new_req_id):
+    """Allows requirements to change their ID (with cascading).
+    """
     with _extreme_caution():
         mdl.dal.update_requirement_id(req_id, new_req_id)
         mdl.get_requirement_model().initialize()
 
 
 def _handle_update_requirement_parent_id(req_id, parent_id):
+    """Updates the parent ID of the requirement with the given ID.
+    """
     mdl.dal.update_requirement_parent_id(req_id, parent_id)
     mdl.get_requirement_model().initialize()
 
 
 def _handle_update_requirement_priority(req_id, priority):
+    """Updates the priority level of the requirement with the given ID.
+    """
     mdl.dal.update_requirement_priority(req_id, priority)
 
 
 def _handle_update_requirement_source(req_id, source_name):
+    """Updates the source of the requirement with the givne ID.
+    """
     mdl.dal.update_requirement_source(req_id, source_name)
 
 
 def _handle_update_requirement_type(req_id, req_type):
+    """Updates the type of the requirement with the given ID.
+    """
     mdl.dal.update_requirement_type(req_id, req_type)
 
 
 def _handle_update_test_associations(test_id, newly_associated_requirements):
+    """Updates the requirement associations for the test with the given ID.
+    """
     mdl.dal.update_test_associations(test_id, newly_associated_requirements)
 
 
 def _handle_update_test_description(test_id, description):
+    """Updates the description of the test with the given ID.
+    """
     mdl.dal.update_test_description(test_id, description)
 
 
 def _handle_update_test_id(test_id, new_test_id):
+    """Allows tests to change their ID (with cascading).
+    """
     with _extreme_caution():
         mdl.dal.update_test_id(test_id, new_test_id)
         mdl.get_test_model().initialize()
 
 
 def _handle_update_use_case_associations(uc_id, newly_associated_requirements):
+    """Updates the requirement associations for the use case with the given ID.
+    """
     mdl.dal.update_use_case_associations(uc_id, newly_associated_requirements)
 
 
 def _handle_update_use_case_description(uc_id, description):
+    """Updates the description of the use case with the given ID.
+    """
     mdl.dal.update_use_case_description(uc_id, description)
 
 
 def _handle_update_use_case_id(uc_id, new_uc_id):
+    """Allows uses cases to change their ID (with cascading)
+    """
     with _extreme_caution():
         mdl.dal.update_use_case_id(uc_id, new_uc_id)
         mdl.get_use_case_model().initialize()
 
 
 def _handle_update_use_case_parent_id(uc_id, parent_id):
+    """Updates the parent ID of a given use case.
+    """
     mdl.dal.update_use_case_parent_id(uc_id, parent_id)
     mdl.get_use_case_model().initialize()
