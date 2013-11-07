@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+
 """This module is responsible for providing an easy-to-use interface to the
-data persistency layer of the application. It contains the base class which
+data persistence layer of the application. It contains the base class which
 all ORM classes must inherit, a function to initialize the database and the
 access point to all database sessions.
 """
+
 from contextlib import contextmanager
 import logging
 import os

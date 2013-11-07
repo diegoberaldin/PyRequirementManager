@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+"""This executable module is the application single entry point.
+"""
+
 import logging.config
 import sys
 
