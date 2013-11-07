@@ -140,8 +140,8 @@ class ItemModel(QtCore.QAbstractItemModel):
         else:  # adding an item as a leaf in some tree (where the parent is)
             parent = self._search_forest(parent_id)
             child_count = len(parent.children)
-            self.beginInsertRows(QtCore.QModelIndex(),
-                    child_count, child_count)
+            parent_index = QtCore.QModelIndex()
+            self.beginInsertRows(parent_index, child_count, child_count)
             new_child = ItemNode(item_id, parent)
             parent.children.append(new_child)
             self.endInsertRows()
