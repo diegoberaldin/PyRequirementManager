@@ -127,7 +127,7 @@ def _handle_update_requirement_priority(req_id, priority):
 
 
 def _handle_update_requirement_source(req_id, source_name):
-    """Updates the source of the requirement with the givne ID.
+    """Updates the source of the requirement with the given ID.
     """
     mdl.dal.update_requirement_source(req_id, source_name)
 

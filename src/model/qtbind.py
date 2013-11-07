@@ -123,16 +123,16 @@ class ItemModel(QtCore.QAbstractItemModel):
         """
         if not parent_id:  # adding a top level item
             child_count = len(self._item_forest)
-            parent_index = QtCore.QModelIndex()  # this is the ROOT! :)
-            self.beginInsertRows(parent_index, child_count, child_count)
+            self.beginInsertRows(QtCore.QModelIndex(),
+                    child_count, child_count)
             new_child = ItemNode(item_id)
             self._item_forest.append(new_child)
             self.endInsertRows()
         else:  # adding an item as a leaf in some tree (where the parent is)
             parent = self._search_forest(parent_id)
-            parent_index = self.createIndex(0, 0, parent)
             child_count = len(parent.children)
-            self.beginInsertRows(parent_index, child_count, child_count)
+            self.beginInsertRows(QtCore.QModelIndex(),
+                    child_count, child_count)
             new_child = ItemNode(item_id, parent)
             parent.children.append(new_child)
             self.endInsertRows()
