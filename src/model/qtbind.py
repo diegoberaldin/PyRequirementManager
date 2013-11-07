@@ -537,4 +537,4 @@ class RequirementListModel(ItemListModel):
         """Returns an iterable containing the IDs of all those requirements
         that are linked to the given item (either a use case or a test).
         """
-        [req.req_id for req in item.requirements]
+        return [req.req_id for req in item.requirements]
