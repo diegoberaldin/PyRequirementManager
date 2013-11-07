@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
 
+"""This module is responsible for the translation of the content of the DB into
+a suitable data structure (which can be list, tree or forest) for the views to
+interact with. To this purpose, the underlying structures are built from the
+DB content and wrapped in QAbstractItemModel subclasses that expose those
+properties that are needed for the UI to draw itself. Since these models can be
+changed by the user, they also expose an API for the *controller* to add,
+remove, reparent or rename items, notifying the attached views about changes.
+"""
+
 from PySide import QtCore
 
 from src.model import dal

@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the basic data access layer of the application, i.e. a
+simple API that is offered to the UI *to query* the model about business data
+state (and relationships) and to the controller *to modify* the data. This
+module is intended to be used as an abstraction from the underlying data
+persistence subsystem, it should only depend on transfer object (mapping) and
+with the database session manager.
+"""
+
 from src.model import database as db
 from src.model.mapping import UseCase, Requirement, Source, SystemTest
 

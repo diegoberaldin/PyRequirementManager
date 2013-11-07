@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the transfer object definitions that are needed in
+order to perform object-relational mapping. It contains the classes that are
+directly mapped to DB tables plus a couple of table definitions which are not
+exposed outside but are used to represent many-to-many relationships instead.
+"""
+
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import Column, ForeignKey, Table
 from sqlalchemy.types import String, Enum, Integer
