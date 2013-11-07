@@ -108,7 +108,10 @@ class MainWidget(QtGui.QWidget):
         self._view = QtGui.QTreeView(self)
         self._view.setMaximumWidth(_LEFT_COLUMN_WIDTH)
         self._view.setAlternatingRowColors(True)
-        self._view.clicked.connect(self._handle_view_clicked)
+        # method override on-the-fly to keep backward compatibility
+        self._view.selectionChanged = (
+                lambda unused_selected, unused_deselected:
+                self._handle_view_clicked())
         self._view.setModel(mdl.get_requirement_model())
         self._splitter.addWidget(self._view)
         self._display = dsp.ItemDisplay(parent=self)
