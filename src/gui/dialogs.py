@@ -37,7 +37,7 @@ class CreateRequirementDialog(CreateItemDialog):
         # form fields
         req_id_label = QtGui.QLabel(u'Nome', self)
         self._req_id_input = QtGui.QLineEdit(self)
-        self._req_id_input.textEdited.connect(self._handle_id_input_changed)
+        self._req_id_input.textChanged.connect(self._handle_id_input_changed)
         description_label = QtGui.QLabel(u'Descrizione', self)
         self._description_input = QtGui.QPlainTextEdit(self)
         req_type_label = QtGui.QLabel(u'Tipologia', self)
@@ -111,7 +111,7 @@ class CreateUseCaseDialog(CreateItemDialog):
         # form fields
         uc_id_label = QtGui.QLabel(u'Nome', self)
         self._uc_id_input = QtGui.QLineEdit(self)
-        self._uc_id_input.textEdited.connect(self._handle_id_input_changed)
+        self._uc_id_input.textChanged.connect(self._handle_id_input_changed)
         description_label = QtGui.QLabel(u'Descrizione', self)
         self._description_input = QtGui.QPlainTextEdit(self)
         parent_id_label = QtGui.QLabel(u'Genitore', self)
