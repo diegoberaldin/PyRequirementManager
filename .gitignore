@@ -38,7 +38,7 @@ nosetests.xml
 .settings
 
 # resources
-gui/res/*.py
+src/gui/res/*.py
 
 # Python2 bytecode and more...
 *.pyc
