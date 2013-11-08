@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the definitions of the dialogs that are used e.g. for
+item creation in the graphical user interface.
+"""
+
 from PySide import QtCore, QtGui
 
 from src import model as mdl
+from src.gui.util import EnumTranslator
 
 
 class CreateItemDialog(QtGui.QDialog):
@@ -24,7 +29,7 @@ class CreateItemDialog(QtGui.QDialog):
         raise NotImplementedError('Implement me!')
 
 
-class CreateRequirementDialog(CreateItemDialog):
+class CreateRequirementDialog(CreateItemDialog, EnumTranslator):
     """Dialog window used to create a new requirement.
     """
     def __init__(self, parent):
@@ -34,6 +39,7 @@ class CreateRequirementDialog(CreateItemDialog):
     def _create_form(self):
         """Implements the base class method to create a suitable form.
         """
+        et = EnumTranslator()
         # form fields
         req_id_label = QtGui.QLabel(self.tr('Name'), self)
         self._req_id_input = QtGui.QLineEdit(self)
@@ -42,11 +48,10 @@ class CreateRequirementDialog(CreateItemDialog):
         self._description_input = QtGui.QPlainTextEdit(self)
         req_type_label = QtGui.QLabel(self.tr('Type'), self)
         self._req_type_input = QtGui.QComboBox(self)
-        self._req_type_input.setModel(QtGui.QStringListModel(mdl.TYPE_LIST))
+        self._req_type_input.setModel(et.get_translated_type_list_model())
         priority_label = QtGui.QLabel(self.tr('Priority'), self)
         self._priority_input = QtGui.QComboBox(self)
-        self._priority_input.setModel(QtGui.QStringListModel(
-                mdl.PRIORITY_LIST))
+        self._priority_input.setModel(et.get_translated_priority_list_model())
         source_label = QtGui.QLabel(self.tr('Source'), self)
         self._source_input = QtGui.QComboBox(self)
         self._source_input.setModel(QtGui.QStringListModel(
@@ -90,8 +95,9 @@ class CreateRequirementDialog(CreateItemDialog):
         """
         self.data = {'req_id': self._req_id_input.text(),
                 'description': self._description_input.toPlainText(),
-                'req_type': self._req_type_input.currentText(),
-                'priority': self._priority_input.currentText(),
+                'req_type': mdl.TYPE_LIST[self._req_type_input.currentIndex()],
+                'priority':
+                 mdl.PRIORITY_LIST[self._priority_input.currentIndex()],
                 'source_id':
                         mdl.get_source_id(self._source_input.currentText()),
                 'parent_id': self._parent_id_input.currentText() or None}

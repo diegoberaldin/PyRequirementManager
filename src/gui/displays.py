@@ -3,6 +3,8 @@
 from PySide import QtCore, QtGui
 
 from src import model as mdl
+from src.gui.util import EnumTranslator
+
 
 # size of the first column in embedded views
 _1ST_COLUMN_WIDTH = 100
@@ -57,6 +59,7 @@ class RequirementDisplay(ItemDisplay):
     def _create_content(self):
         """Creates the form that is shown in the requirement display.
         """
+        et = EnumTranslator()
         # form fields
         name_label = QtGui.QLabel(self.tr('Name'), self)
         self._name_input = QtGui.QLineEdit(self)
@@ -66,13 +69,12 @@ class RequirementDisplay(ItemDisplay):
         self._description_input.setPlainText(self.item.description)
         priority_label = QtGui.QLabel(self.tr('Priority'), self)
         self._priority_input = QtGui.QComboBox(self)
-        self._priority_input.setModel(
-                QtGui.QStringListModel(mdl.PRIORITY_LIST))
+        self._priority_input.setModel(et.get_translated_priority_list_model())
         self._priority_input.setCurrentIndex(
                 mdl.PRIORITY_LIST.index(self.item.priority))
         type_label = QtGui.QLabel(self.tr('Type'), self)
         self._type_input = QtGui.QComboBox(self)
-        self._type_input.setModel(QtGui.QStringListModel(mdl.TYPE_LIST))
+        self._type_input.setModel(et.get_translated_type_list_model())
         self._type_input.setCurrentIndex(
                 mdl.TYPE_LIST.index(self.item.req_type))
         source_label = QtGui.QLabel(self.tr('Source'), self)
@@ -129,8 +131,8 @@ class RequirementDisplay(ItemDisplay):
         """
         new_req_id = self._name_input.text()
         new_description = self._description_input.toPlainText()
-        new_priority = self._priority_input.currentText()
-        new_type = self._type_input.currentText()
+        new_priority = mdl.PRIORITY_LIST[self._priority_input.currentIndex()]
+        new_type = mdl.TYPE_LIST[self._type_input.currentIndex()]
         new_source = self._source_input.currentText()
         new_parent_id = self._parent_id_input.currentText() or None
         if self.item.req_id != new_req_id:

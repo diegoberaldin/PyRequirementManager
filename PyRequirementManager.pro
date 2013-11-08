@@ -8,12 +8,13 @@ DEPENDPATH += . src i18n
 INCLUDEPATH += .
 
 # Input
-TRANSLATIONS += res/i18n/en_US.ts res/i18n/it_IT.ts
+TRANSLATIONS += i18n/en_US.ts i18n/it_IT.ts
 
 SOURCES += src/main.py \
            src/controller/events.py \
            src/gui/dialogs.py \
            src/gui/displays.py \
+           src/gui/util.py \
            src/gui/window.py \
            src/model/constants.py \
            src/model/dataaccess.py \

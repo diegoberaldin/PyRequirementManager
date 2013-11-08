@@ -3,37 +3,37 @@
 <context>
     <name>CreateRequirementDialog</name>
     <message>
-        <location filename="src/gui/dialogs.py" line="32"/>
+        <location filename="src/gui/dialogs.py" line="38"/>
         <source>New requirement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="38"/>
+        <location filename="src/gui/dialogs.py" line="44"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="41"/>
+        <location filename="src/gui/dialogs.py" line="47"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="43"/>
+        <location filename="src/gui/dialogs.py" line="49"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="46"/>
+        <location filename="src/gui/dialogs.py" line="52"/>
         <source>Priority</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="50"/>
+        <location filename="src/gui/dialogs.py" line="56"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="54"/>
+        <location filename="src/gui/dialogs.py" line="60"/>
         <source>Parent</source>
         <translation type="unfinished"></translation>
     </message>
@@ -41,17 +41,17 @@
 <context>
     <name>CreateTestDialog</name>
     <message>
-        <location filename="src/gui/dialogs.py" line="164"/>
+        <location filename="src/gui/dialogs.py" line="171"/>
         <source>New test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="170"/>
+        <location filename="src/gui/dialogs.py" line="177"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="172"/>
+        <location filename="src/gui/dialogs.py" line="179"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
@@ -59,23 +59,61 @@
 <context>
     <name>CreateUseCaseDialog</name>
     <message>
-        <location filename="src/gui/dialogs.py" line="106"/>
+        <location filename="src/gui/dialogs.py" line="113"/>
         <source>New use case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="112"/>
+        <location filename="src/gui/dialogs.py" line="119"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="115"/>
+        <location filename="src/gui/dialogs.py" line="122"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="117"/>
+        <location filename="src/gui/dialogs.py" line="124"/>
         <source>Parent</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EnumTranslator</name>
+    <message>
+        <location filename="src/gui/util.py" line="23"/>
+        <source>functional</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/gui/util.py" line="25"/>
+        <source>performance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/gui/util.py" line="27"/>
+        <source>quality metric</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/gui/util.py" line="29"/>
+        <source>declarative</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/gui/util.py" line="34"/>
+        <source>mandatory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/gui/util.py" line="36"/>
+        <source>optional</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/gui/util.py" line="38"/>
+        <source>desirable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -154,42 +192,42 @@
 <context>
     <name>RequirementDisplay</name>
     <message>
-        <location filename="src/gui/displays.py" line="61"/>
+        <location filename="src/gui/displays.py" line="63"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="64"/>
+        <location filename="src/gui/displays.py" line="66"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="67"/>
+        <location filename="src/gui/displays.py" line="69"/>
         <source>Priority</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="73"/>
+        <location filename="src/gui/displays.py" line="75"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="78"/>
+        <location filename="src/gui/displays.py" line="80"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="85"/>
+        <location filename="src/gui/displays.py" line="87"/>
         <source>Parent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="93"/>
+        <location filename="src/gui/displays.py" line="95"/>
         <source>Use cases</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="100"/>
+        <location filename="src/gui/displays.py" line="102"/>
         <source>Tests</source>
         <translation type="unfinished"></translation>
     </message>
@@ -197,17 +235,17 @@
 <context>
     <name>TestDisplay</name>
     <message>
-        <location filename="src/gui/displays.py" line="239"/>
+        <location filename="src/gui/displays.py" line="241"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="242"/>
+        <location filename="src/gui/displays.py" line="244"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="245"/>
+        <location filename="src/gui/displays.py" line="247"/>
         <source>Requirements</source>
         <translation type="unfinished"></translation>
     </message>
@@ -215,22 +253,22 @@
 <context>
     <name>UseCaseDisplay</name>
     <message>
-        <location filename="src/gui/displays.py" line="174"/>
+        <location filename="src/gui/displays.py" line="176"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="177"/>
+        <location filename="src/gui/displays.py" line="179"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="180"/>
+        <location filename="src/gui/displays.py" line="182"/>
         <source>Parent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="188"/>
+        <location filename="src/gui/displays.py" line="190"/>
         <source>Requirements</source>
         <translation type="unfinished"></translation>
     </message>
