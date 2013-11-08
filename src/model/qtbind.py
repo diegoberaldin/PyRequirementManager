@@ -259,7 +259,7 @@ class ItemModel(QtCore.QAbstractItemModel):
         if (role == QtCore.Qt.DisplayRole and
                 orientation == QtCore.Qt.Horizontal):
             if section == 0:
-                return u'Nome'
+                return self.tr('Name')
 
     def index(self, row, column, parent=QtCore.QModelIndex()):
         """Allows views to go one step further in the tree starting from
@@ -411,11 +411,11 @@ class ItemListModel(QtCore.QAbstractItemModel):
         if (role == QtCore.Qt.DisplayRole and
                 orientation == QtCore.Qt.Horizontal):
             if section == 0:
-                return u'Nome'
+                return self.tr('Name')
             if section == 1:
-                return u'Descrizione'
+                return self.tr('Description')
             if section == 2:
-                return u'Associato'
+                return self.tr('Linked')
 
     def rowCount(self, index=QtCore.QModelIndex()):
         """Since this is a flat model, indexes pointing to first level items

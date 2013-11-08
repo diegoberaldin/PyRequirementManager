@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>i18n/it_IT.qm</file>
+    </qresource>
+</RCC>

@@ -29,6 +29,7 @@ nosetests.xml
 
 # Translations
 *.mo
+*.qm
 
 # Mr Developer
 .mr.developer.cfg
@@ -36,7 +37,11 @@ nosetests.xml
 .pydevproject
 .settings
 
+# resources
+gui/res/*.py
+
 # Python2 bytecode and more...
 *.pyc
 *.pyo
 *.log
+

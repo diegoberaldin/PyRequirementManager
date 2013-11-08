@@ -6,7 +6,7 @@
 import logging.config
 import sys
 
-from PySide import QtGui
+from PySide import QtCore, QtGui
 
 from src import controller, gui, model
 
@@ -32,5 +32,9 @@ class Application(QtGui.QApplication):
 
 if __name__ == '__main__':
     application = Application(sys.argv)
+    # translates the application UI
+    translator = QtCore.QTranslator()
+    translator.load(':/i18n/{0}'.format(QtCore.QLocale.system().name()))
+    application.installTranslator(translator)
     application.run()
     sys.exit(application.exec_())

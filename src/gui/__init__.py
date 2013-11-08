@@ -6,3 +6,4 @@ those cases when view updates must be triggered explicitly.
 """
 
 from src.gui.window import get_main_window
+from src.gui.res import resources

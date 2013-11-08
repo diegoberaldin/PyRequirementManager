@@ -58,31 +58,31 @@ class RequirementDisplay(ItemDisplay):
         """Creates the form that is shown in the requirement display.
         """
         # form fields
-        name_label = QtGui.QLabel(u'Nome', self)
+        name_label = QtGui.QLabel(self.tr('Name'), self)
         self._name_input = QtGui.QLineEdit(self)
         self._name_input.setText(self.item.req_id)
-        description_label = QtGui.QLabel(u'Descrizione', self)
+        description_label = QtGui.QLabel(self.tr('Description'), self)
         self._description_input = QtGui.QPlainTextEdit(self)
         self._description_input.setPlainText(self.item.description)
-        priority_label = QtGui.QLabel(u'Priorità', self)
+        priority_label = QtGui.QLabel(self.tr('Priority'), self)
         self._priority_input = QtGui.QComboBox(self)
         self._priority_input.setModel(
                 QtGui.QStringListModel(mdl.PRIORITY_LIST))
         self._priority_input.setCurrentIndex(
                 mdl.PRIORITY_LIST.index(self.item.priority))
-        type_label = QtGui.QLabel(u'Tipo:', self)
+        type_label = QtGui.QLabel(self.tr('Type'), self)
         self._type_input = QtGui.QComboBox(self)
         self._type_input.setModel(QtGui.QStringListModel(mdl.TYPE_LIST))
         self._type_input.setCurrentIndex(
                 mdl.TYPE_LIST.index(self.item.req_type))
-        source_label = QtGui.QLabel(u'Fonte', self)
+        source_label = QtGui.QLabel(self.tr('Source'), self)
         self._source_input = QtGui.QComboBox(self)
         sources = mdl.get_all_source_names()
         self._source_input.setModel(
                 QtGui.QStringListModel(sources))
         self._source_input.setCurrentIndex(
                 sources.index(self.item.source.name))
-        parent_id_label = QtGui.QLabel(u'Genitore', self)
+        parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
         requirement_ids = mdl.get_all_req_ids()
         requirement_ids.insert(0, None)
@@ -90,14 +90,14 @@ class RequirementDisplay(ItemDisplay):
         self._parent_id_input.setModel(QtGui.QStringListModel(requirement_ids))
         self._parent_id_input.setCurrentIndex(
                     requirement_ids.index(self.item.parent_id))
-        uc_label = QtGui.QLabel(u'Casi d\'uso', self)
+        uc_label = QtGui.QLabel(self.tr('Use cases'), self)
         self._uc_input = QtGui.QTreeView(self)
         self._uc_input.setModel(mdl.get_use_case_list_model(self.item))
         self._uc_input.setAlternatingRowColors(True)
         self._uc_input.header().resizeSection(0, _1ST_COLUMN_WIDTH)
         self._uc_input.header().resizeSection(1, _2ND_COLUMN_WIDTH)
         self._uc_input.header().resizeSection(2, _3RD_COLUMN_WIDTH)
-        test_label = QtGui.QLabel(u'Test', self)
+        test_label = QtGui.QLabel(self.tr('Tests'), self)
         self._test_input = QtGui.QTreeView(self)
         self._test_input.setModel(mdl.get_test_list_model(self.item))
         self._test_input.setAlternatingRowColors(True)
@@ -171,13 +171,13 @@ class UseCaseDisplay(ItemDisplay):
         """Creates the form that is shown in the use case display.
         """
         # form fields
-        name_label = QtGui.QLabel(u'Nome', self)
+        name_label = QtGui.QLabel(self.tr('Name'), self)
         self._name_input = QtGui.QLineEdit(self)
         self._name_input.setText(self.item.uc_id)
-        description_label = QtGui.QLabel(u'Descrizione', self)
+        description_label = QtGui.QLabel(self.tr('Description'), self)
         self._description_input = QtGui.QPlainTextEdit(self)
         self._description_input.setPlainText(self.item.description)
-        parent_id_label = QtGui.QLabel(u'Genitore', self)
+        parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
         uc_ids = mdl.get_all_uc_ids()
         uc_ids.insert(0, None)
@@ -185,7 +185,7 @@ class UseCaseDisplay(ItemDisplay):
         self._parent_id_input.setModel(QtGui.QStringListModel(uc_ids))
         self._parent_id_input.setCurrentIndex(
                 uc_ids.index(self.item.parent_id))
-        requirements_label = QtGui.QLabel(u'Requisiti', self)
+        requirements_label = QtGui.QLabel(self.tr('Requirements'), self)
         self._requirements_input = QtGui.QTreeView(self)
         self._requirements_input.setModel(
                 mdl.get_requirement_list_model(self.item))
@@ -236,13 +236,13 @@ class TestDisplay(ItemDisplay):
         """Creates the form that is shown in the test display.
         """
         # form fields
-        test_id_label = QtGui.QLabel(u'Nome', self)
+        test_id_label = QtGui.QLabel(self.tr('Name'), self)
         self._test_id_input = QtGui.QLineEdit(self)
         self._test_id_input.setText(self.item.test_id)
-        description_label = QtGui.QLabel(u'Descrizione', self)
+        description_label = QtGui.QLabel(self.tr('Description'), self)
         self._description_input = QtGui.QPlainTextEdit(self)
         self._description_input.setPlainText(self.item.description)
-        requirements_label = QtGui.QLabel(u'Requisiti', self)
+        requirements_label = QtGui.QLabel(self.tr('Requirements'), self)
         self._requirements_input = QtGui.QTreeView(self)
         self._requirements_input.setModel(
                 mdl.get_requirement_list_model(self.item))

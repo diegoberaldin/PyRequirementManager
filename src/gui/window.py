@@ -39,7 +39,7 @@ class MainWindow(QtGui.QMainWindow):
     def display_message(self, message):
         """Displays an error message in the main user interface.
         """
-        QtGui.QMessageBox.critical(self, u'Errore', message)
+        QtGui.QMessageBox.critical(self, self.tr('Error'), message)
 
 
 class MainWidget(QtGui.QWidget):
@@ -63,18 +63,18 @@ class MainWidget(QtGui.QWidget):
         """
         self._new_action = QtGui.QAction(
                 self.style().standardIcon(QtGui.QStyle.SP_FileDialogNewFolder),
-                u'Crea nuovo elemento (Ctrl+N)', self)
+                self.tr('Create new item (Ctrl+N)'), self)
         self._new_action.setShortcut(QtGui.QKeySequence.New)
         self._new_action.triggered.connect(self._handle_new)
         self._save_action = QtGui.QAction(
                 self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton),
-                u'Salva elemento (Ctrl+S)', self)
+                self.tr('Save item (Ctrl+S)'), self)
         self._save_action.setShortcut(QtGui.QKeySequence.Save)
         self._save_action.triggered.connect(self._handle_save)
         self._save_action.setEnabled(False)
         self._delete_action = QtGui.QAction(
                 self.style().standardIcon(QtGui.QStyle.SP_TrashIcon),
-                u'Elimina elemento (Del)', self)
+                self.tr('Delete item (Del)'), self)
         self._delete_action.setShortcut(QtGui.QKeySequence.Delete)
         self._delete_action.triggered.connect(self._handle_delete)
 
@@ -86,8 +86,9 @@ class MainWidget(QtGui.QWidget):
         tool_bar = QtGui.QToolBar(bar_widget)
         # combo box for selecting items to display
         self._view_selector = QtGui.QComboBox(tool_bar)
-        self._view_selector.setModel(QtGui.QStringListModel(
-                [u'Requisiti', u'Casi d\'uso', u'Test']))
+        self._view_selector.setModel(QtGui.QStringListModel([
+                self.tr('Requirements'), self.tr('Use cases'),
+                self.tr('Tests')]))
         self._view_selector.setCurrentIndex(0)
         self._view_selector.currentIndexChanged.connect(
                 self._handle_selector_index_changed)
@@ -97,7 +98,7 @@ class MainWidget(QtGui.QWidget):
         tool_bar.addAction(self._delete_action)
         bar_widget.layout().addWidget(tool_bar)
         bar_widget.layout().addStretch()
-        bar_widget.layout().addWidget(QtGui.QLabel('Visualizza', tool_bar))
+        bar_widget.layout().addWidget(QtGui.QLabel(self.tr('Show'), tool_bar))
         bar_widget.layout().addWidget(self._view_selector)
         self.layout().addWidget(bar_widget)
 

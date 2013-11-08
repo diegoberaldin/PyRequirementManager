@@ -29,29 +29,29 @@ class CreateRequirementDialog(CreateItemDialog):
     """
     def __init__(self, parent):
         super(CreateRequirementDialog, self).__init__(parent)
-        self.setWindowTitle(u'Nuovo requisito')
+        self.setWindowTitle(self.tr('New requirement'))
 
     def _create_form(self):
         """Implements the base class method to create a suitable form.
         """
         # form fields
-        req_id_label = QtGui.QLabel(u'Nome', self)
+        req_id_label = QtGui.QLabel(self.tr('Name'), self)
         self._req_id_input = QtGui.QLineEdit(self)
         self._req_id_input.textChanged.connect(self._handle_id_input_changed)
-        description_label = QtGui.QLabel(u'Descrizione', self)
+        description_label = QtGui.QLabel(self.tr('Description'), self)
         self._description_input = QtGui.QPlainTextEdit(self)
-        req_type_label = QtGui.QLabel(u'Tipologia', self)
+        req_type_label = QtGui.QLabel(self.tr('Type'), self)
         self._req_type_input = QtGui.QComboBox(self)
         self._req_type_input.setModel(QtGui.QStringListModel(mdl.TYPE_LIST))
-        priority_label = QtGui.QLabel(u'Priorità', self)
+        priority_label = QtGui.QLabel(self.tr('Priority'), self)
         self._priority_input = QtGui.QComboBox(self)
         self._priority_input.setModel(QtGui.QStringListModel(
                 mdl.PRIORITY_LIST))
-        source_label = QtGui.QLabel(u'Fonte', self)
+        source_label = QtGui.QLabel(self.tr('Source'), self)
         self._source_input = QtGui.QComboBox(self)
         self._source_input.setModel(QtGui.QStringListModel(
                 mdl.get_all_source_names()))
-        parent_id_label = QtGui.QLabel(u'Genitore', self)
+        parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
         req_id_list = mdl.get_all_req_ids()
         req_id_list.insert(0, None)
@@ -103,18 +103,18 @@ class CreateUseCaseDialog(CreateItemDialog):
     """
     def __init__(self, parent):
         super(CreateUseCaseDialog, self).__init__(parent)
-        self.setWindowTitle(u'Nuovo caso d\'uso')
+        self.setWindowTitle(self.tr('New use case'))
 
     def _create_form(self):
         """Implements the base class method to create a suitable form.
         """
         # form fields
-        uc_id_label = QtGui.QLabel(u'Nome', self)
+        uc_id_label = QtGui.QLabel(self.tr('Name'), self)
         self._uc_id_input = QtGui.QLineEdit(self)
         self._uc_id_input.textChanged.connect(self._handle_id_input_changed)
-        description_label = QtGui.QLabel(u'Descrizione', self)
+        description_label = QtGui.QLabel(self.tr('Description'), self)
         self._description_input = QtGui.QPlainTextEdit(self)
-        parent_id_label = QtGui.QLabel(u'Genitore', self)
+        parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
         uc_id_list = mdl.get_all_uc_ids()
         uc_id_list.insert(0, None)
@@ -161,15 +161,15 @@ class CreateTestDialog(CreateItemDialog):
     """
     def __init__(self, parent):
         super(CreateTestDialog, self).__init__(parent)
-        self.setWindowTitle(u'Nuovo test')
+        self.setWindowTitle(self.tr('New test'))
 
     def _create_form(self):
         """Implements the base class method to create a suitable form.
         """
         # form fields
-        test_id_label = QtGui.QLabel(u'Nome', self)
+        test_id_label = QtGui.QLabel(self.tr('Name'), self)
         self._test_id_input = QtGui.QLineEdit(self)
-        description_label = QtGui.QLabel(u'Descrizione', self)
+        description_label = QtGui.QLabel(self.tr('Description'), self)
         self._description_input = QtGui.QPlainTextEdit(self)
         # puts it all together
         self.layout().addRow(test_id_label, self._test_id_input)
