@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the main window of the application and the definition
+of its central (main) widget.
+"""
+
 from PySide import QtCore, QtGui
 
 from src import APPNAME, model as mdl
@@ -201,21 +205,21 @@ class MainWidget(QtGui.QWidget):
         """
         selection = self._get_view_selection()
         if len(selection) == 1:
-            item = selection.pop()
+            item_id = selection.pop()
             if self._view_selector.currentIndex() == 0:  # requirement
-                requirement = mdl.dal.get_requirement(item.item_id)
+                requirement = mdl.dal.get_requirement(item_id)
                 self._switch_display(dsp.RequirementDisplay(requirement, self))
             elif self._view_selector.currentIndex() == 1:  # use case
-                use_case = mdl.dal.get_use_case(item.item_id)
+                use_case = mdl.dal.get_use_case(item_id)
                 self._switch_display(dsp.UseCaseDisplay(use_case, self))
             else:  # test
-                test = mdl.dal.get_test(item.item_id)
+                test = mdl.dal.get_test(item_id)
                 self._switch_display(dsp.TestDisplay(test, self))
 
     def _get_view_selection(self):
         """Extracts the selected item from the left hand column.
         """
-        return [index.internalPointer()
+        return [self._view.model().data(index)
                 for index in self._view.selectedIndexes()
                 if index.column() == 0]
 
