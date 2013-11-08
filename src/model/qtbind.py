@@ -140,11 +140,13 @@ class ItemModel(QtCore.QAbstractItemModel):
         else:  # adding an item as a leaf in some tree (where the parent is)
             parent = self._search_forest(parent_id)
             child_count = len(parent.children)
-            parent_index = self.createIndex(child_count - 1, 0, parent)
+            parent_index = self.createIndex(0, 0, parent)
+            self.layoutAboutToBeChanged.emit()  # why is this needed?
             self.beginInsertRows(parent_index, child_count, child_count)
             new_child = ItemNode(item_id, parent)
             parent.children.append(new_child)
             self.endInsertRows()
+            self.layoutChanged.emit()
 
     def update_item_id(self, old_id, new_id):
         """Changes the ID of the item with the given old ID to the new one.
