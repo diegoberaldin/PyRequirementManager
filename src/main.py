@@ -20,7 +20,6 @@ class Application(QtGui.QApplication):
         """Initializes the controller and shows the main view.
         """
         model.initialize_db()
-        model.dal.initialize_sources()
         self._controller = controller.ApplicationController()
         self._gui = gui.get_main_window(self._controller)
         self._gui.show()

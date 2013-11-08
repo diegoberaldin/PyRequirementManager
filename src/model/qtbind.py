@@ -20,6 +20,8 @@ _reqm = None
 _testm = None
 # single instance of the use case model
 _ucm = None
+# single instance of the source model
+_srcm = None
 
 
 class ItemNode(object):
@@ -40,6 +42,15 @@ def get_requirement_model():
     if not _reqm:
         _reqm = RequirementModel()
     return _reqm
+
+
+def get_source_model():
+    """Gets a reference to the single instance of the source model.
+    """
+    global _srcm
+    if not _srcm:
+        _srcm = SourceModel()
+    return _srcm
 
 
 def get_test_model():
@@ -370,6 +381,25 @@ class TestModel(ItemModel):
         """Returns an iterable of all those tests that have no parent.
         """
         return dal.get_top_level_test_ids()
+
+
+class SourceModel(ItemModel):
+    """Abstract item model subclass used to represent the requirement sources.
+    """
+    def __init__(self):
+        super(SourceModel, self).__init__()
+
+    @classmethod
+    def _get_children(cls, unused_item_id):
+        """This is (hopefully) a flat model so this is always an empty list.
+        """
+        return []
+
+    @classmethod
+    def _get_top_level_items(cls):
+        """Returns an iterable of all requirement sources.
+        """
+        return dal.get_source_ids()
 
 
 class ItemListModel(QtCore.QAbstractItemModel):

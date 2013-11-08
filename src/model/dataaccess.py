@@ -12,12 +12,30 @@ from src.model import database as db
 from src.model.mapping import UseCase, Requirement, Source, SystemTest
 
 
+def get_source_ids():
+    with db.get_session() as session:
+        return [s[0] for s in session.query(Source.source_id)]
+
+
+def get_source(source_id):
+    with db.get_session() as session:
+        source = session.query(Source).filter(
+                Source.source_id == source_id).one()
+        session.expunge_all()
+        return source
+
+
 def get_requirement(req_id):
     with db.get_session() as session:
         requirement = session.query(Requirement).filter(
                 Requirement.req_id == req_id).scalar()
         session.expunge_all()
         return requirement
+
+
+def delete_source(source_id):
+    with db.get_session() as session:
+        session.query(Source).filter(Source.source_id == source_id).delete()
 
 
 def get_requirement_children_ids(req_id):
@@ -76,6 +94,12 @@ def create_requirement(req_id, description, req_type, priority, source_id,
         requirement = Requirement(req_id, description, req_type, priority,
                 source_id, parent_id)
         session.add(requirement)
+
+
+def create_source(source_name):
+    with db.get_session() as session:
+        source = Source(source_name)
+        session.add(source)
 
 
 def create_test(test_id, description):
@@ -178,16 +202,6 @@ def get_test(test_id):
                 SystemTest.test_id == test_id).scalar()
         session.expunge_all()
         return test
-
-
-def initialize_sources():
-    with db.get_session() as session:
-        if not session.query(Source).count():
-            sources = [Source('Colloquio'),
-                    Source('Piano di lavoro'),
-                    Source('Interna')]
-            for source in sources:
-                session.add(source)
 
 
 def update_requirement_id(req_id, new_req_id):
@@ -312,6 +326,13 @@ def update_requirement_associations(req_id, newly_associated_use_cases,
             test = session.query(SystemTest).filter(
                     SystemTest.test_id == test_id).one()
             requirement.tests.remove(test)
+
+
+def update_source_name(source_id, source_name):
+    with db.get_session() as session:
+        source = session.query(Source).filter(
+                Source.source_id == source_id).one()
+        source.name = source_name
 
 
 def update_use_case_associations(uc_id, newly_associated_requirements):

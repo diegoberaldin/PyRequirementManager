@@ -82,6 +82,12 @@ class MainWidget(QtGui.QWidget):
         self._delete_action.setShortcut(QtGui.QKeySequence.Delete)
         self._delete_action.triggered.connect(self._handle_delete)
 
+    def _get_view_selector_model(self):
+        """Returns a string list model for the content of the view selector.
+        """
+        return QtGui.QStringListModel([self.tr('Requirements'),
+                self.tr('Use cases'), self.tr('Tests'), self.tr('Sources')])
+
     def _create_toolbar(self):
         """Creates the top toolbar of the central widget.
         """
@@ -90,9 +96,7 @@ class MainWidget(QtGui.QWidget):
         tool_bar = QtGui.QToolBar(bar_widget)
         # combo box for selecting items to display
         self._view_selector = QtGui.QComboBox(tool_bar)
-        self._view_selector.setModel(QtGui.QStringListModel([
-                self.tr('Requirements'), self.tr('Use cases'),
-                self.tr('Tests')]))
+        self._view_selector.setModel(self._get_view_selector_model())
         self._view_selector.setCurrentIndex(0)
         self._view_selector.currentIndexChanged.connect(
                 self._handle_selector_index_changed)
@@ -134,8 +138,10 @@ class MainWidget(QtGui.QWidget):
             self._view.setModel(mdl.get_requirement_model())
         elif index == 1:
             self._view.setModel(mdl.get_use_case_model())
-        else:
+        elif index == 2:
             self._view.setModel(mdl.get_test_model())
+        elif index == 3:
+            self._view.setModel(mdl.get_source_model())
         self._switch_display(dsp.ItemDisplay(parent=self))
 
     @QtCore.Slot()
@@ -155,11 +161,16 @@ class MainWidget(QtGui.QWidget):
             ret = dialog.exec_()
             if ret:
                 self.fire_event.emit('create_use_case', {'data': dialog.data})
-        else:  # new test
+        elif index == 2:  # new test
             dialog = dlg.CreateTestDialog(self)
             ret = dialog.exec_()
             if ret:
                 self.fire_event.emit('create_test', {'data': dialog.data})
+        elif index == 3:  # new source
+            dialog = dlg.CreateSourceDialog(self)
+            ret = dialog.exec_()
+            if ret:
+                self.fire_event.emit('create_source', {'data': dialog.data})
 
     @QtCore.Slot()
     def _handle_display_content_changed(self):
@@ -188,14 +199,17 @@ class MainWidget(QtGui.QWidget):
         if not current_item:
             return
         if hasattr(current_item, 'req_id'):
-            self.fire_event.emit(
-                    'delete_requirement', {'req_id': current_item.req_id})
+            self.fire_event.emit('delete_requirement',
+                    {'req_id': current_item.req_id})
         elif hasattr(current_item, 'uc_id'):
-            self.fire_event.emit(
-                    'delete_use_case', {'uc_id': current_item.uc_id})
-        else:
-            self.fire_event.emit(
-                    'delete_test', {'test_id': current_item.test_id})
+            self.fire_event.emit('delete_use_case',
+                    {'uc_id': current_item.uc_id})
+        elif hasattr(current_item, 'test_id'):
+            self.fire_event.emit('delete_test',
+                    {'test_id': current_item.test_id})
+        elif hasattr(current_item, 'source_id'):
+            self.fire_event.emit('delete_source',
+                    {'source_id': current_item.source_id})
         self._switch_display(dsp.ItemDisplay(parent=self))
 
     @QtCore.Slot()
@@ -206,15 +220,27 @@ class MainWidget(QtGui.QWidget):
         selection = self._get_view_selection()
         if len(selection) == 1:
             item_id = selection.pop()
-            if self._view_selector.currentIndex() == 0:  # requirement
-                requirement = mdl.dal.get_requirement(item_id)
-                self._switch_display(dsp.RequirementDisplay(requirement, self))
-            elif self._view_selector.currentIndex() == 1:  # use case
-                use_case = mdl.dal.get_use_case(item_id)
+            index = self._view_selector.currentIndex()
+            if index == 0:  # requirement
+                if mdl.get_all_source_names():
+                    requirement = mdl.get_requirement(item_id)
+                    self._switch_display(dsp.RequirementDisplay(
+                            requirement, self))
+                else:
+                    QtGui.QMessageBox.critical(self, self.tr('No source'),
+                            self.tr('You have to create at least one source'
+                            'in order to create a new requirement'))
+            elif index == 1:  # use case
+                use_case = mdl.get_use_case(item_id)
                 self._switch_display(dsp.UseCaseDisplay(use_case, self))
-            else:  # test
-                test = mdl.dal.get_test(item_id)
+            elif index == 2:  # test
+                test = mdl.get_test(item_id)
                 self._switch_display(dsp.TestDisplay(test, self))
+            elif index == 3:
+                source = mdl.get_source(item_id)
+                self._switch_display(dsp.SourceDisplay(source, self))
+            else:
+                self._switch_display(dsp.ItemDisplay(parent=self))
 
     def _get_view_selection(self):
         """Extracts the selected item from the left hand column.

@@ -277,3 +277,25 @@ class TestDisplay(ItemDisplay):
         self.fire_event.emit('update_test_associations', {
                 'test_id': new_test_id, 'newly_associated_requirements':
                 self._requirements_input.model().associated_item_ids})
+
+
+class SourceDisplay(ItemDisplay):
+    def __init__(self, source, parent):
+        super(SourceDisplay, self).__init__(source, parent)
+
+    def _create_content(self):
+        # form fields
+        name_label = QtGui.QLabel(self.tr('Name'), self)
+        self._name_input = QtGui.QLineEdit(self)
+        self._name_input.setText(self.item.name)
+        # puts it all together
+        self.layout().addRow(name_label, self._name_input)
+        # signal connections
+        self._name_input.textChanged.connect(self.content_changed)
+
+    def save(self):
+        new_source_name = self._name_input.text()
+        if self.item.name != new_source_name:
+            self.fire_event.emit('update_source_name',
+                    {'source_id': self.item.source_id,
+                    'source_name': new_source_name})

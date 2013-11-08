@@ -52,6 +52,15 @@ def _handle_create_requirement(data):
                 data['req_id'], data['parent_id'])
 
 
+def _handle_create_source(data):
+    """Creates a new requirement source.
+    """
+    with _extreme_caution():
+        mdl.dal.create_source(**data)
+        new_source_id = mdl.dal.get_source_id(data['source_name'])
+        mdl.get_source_model().append_child_to_parent(new_source_id)
+
+
 def _handle_create_test(data):
     """Creates a new test and resets the test model.
     """
@@ -75,6 +84,14 @@ def _handle_delete_requirement(req_id):
     """
     mdl.dal.delete_requirement(req_id)
     mdl.get_requirement_model().delete_item(req_id)
+
+
+def _handle_delete_source(source_id):
+    """Deletes the source with the given source ID.
+    """
+    with _extreme_caution():
+        mdl.dal.delete_source(source_id)
+        mdl.get_source_model().delete_item(source_id)
 
 
 def _handle_delete_test(test_id):
@@ -124,6 +141,13 @@ def _handle_update_requirement_priority(req_id, priority):
     """Updates the priority level of the requirement with the given ID.
     """
     mdl.dal.update_requirement_priority(req_id, priority)
+
+
+def _handle_update_source_name(source_id, source_name):
+    """Updates the name of the source with the given ID number.
+    """
+    with _extreme_caution():
+        mdl.dal.update_source_name(source_id, source_name)
 
 
 def _handle_update_requirement_source(req_id, source_name):

@@ -22,11 +22,23 @@ class CreateItemDialog(QtGui.QDialog):
         self.data = None
         self.setLayout(QtGui.QFormLayout(self))
         self._create_form()
+        self._create_button_box()
 
     def _create_form(self):
         """Hook method used to create the input form for the new item.
         """
         raise NotImplementedError('Implement me!')
+
+    def _create_button_box(self):
+        """Creates a button box for the dialog with a Cancel button connected
+        to the reject slot and an OK button connected to the accept slot.
+        """
+        button_box = QtGui.QDialogButtonBox(self)
+        button_box.addButton(
+                QtGui.QDialogButtonBox.Ok).clicked.connect(self.accept)
+        button_box.addButton(
+                QtGui.QDialogButtonBox.Cancel).clicked.connect(self.reject)
+        self.layout().addWidget(button_box)
 
 
 class CreateRequirementDialog(CreateItemDialog, EnumTranslator):
@@ -68,13 +80,6 @@ class CreateRequirementDialog(CreateItemDialog, EnumTranslator):
         self.layout().addRow(priority_label, self._priority_input)
         self.layout().addRow(source_label, self._source_input)
         self.layout().addRow(parent_id_label, self._parent_id_input)
-        # button box
-        button_box = QtGui.QDialogButtonBox(self)
-        button_box.addButton(
-                QtGui.QDialogButtonBox.Ok).clicked.connect(self.accept)
-        button_box.addButton(
-                QtGui.QDialogButtonBox.Cancel).clicked.connect(self.reject)
-        self.layout().addWidget(button_box)
 
     @QtCore.Slot()
     def _handle_id_input_changed(self, text):
@@ -130,13 +135,6 @@ class CreateUseCaseDialog(CreateItemDialog):
         self.layout().addRow(uc_id_label, self._uc_id_input)
         self.layout().addRow(description_label, self._description_input)
         self.layout().addRow(parent_id_label, self._parent_id_input)
-        # button box
-        button_box = QtGui.QDialogButtonBox(self)
-        button_box.addButton(
-                QtGui.QDialogButtonBox.Ok).clicked.connect(self.accept)
-        button_box.addButton(
-                QtGui.QDialogButtonBox.Cancel).clicked.connect(self.reject)
-        self.layout().addWidget(button_box)
 
     @QtCore.Slot()
     def _handle_id_input_changed(self, text):
@@ -180,13 +178,6 @@ class CreateTestDialog(CreateItemDialog):
         # puts it all together
         self.layout().addRow(test_id_label, self._test_id_input)
         self.layout().addRow(description_label, self._description_input)
-        # button box
-        button_box = QtGui.QDialogButtonBox(self)
-        button_box.addButton(
-                QtGui.QDialogButtonBox.Ok).clicked.connect(self.accept)
-        button_box.addButton(
-                QtGui.QDialogButtonBox.Cancel).clicked.connect(self.reject)
-        self.layout().addWidget(button_box)
 
     def accept(self):
         """Extracts the information provided by the user in the input form and
@@ -195,3 +186,25 @@ class CreateTestDialog(CreateItemDialog):
         self.data = {'test_id': self._test_id_input.text(),
                 'description': self._description_input.toPlainText()}
         super(CreateTestDialog, self).accept()
+
+
+class CreateSourceDialog(CreateItemDialog):
+    """This dialog is used to create a new requirement source.
+    """
+    def __init__(self, parent):
+        super(CreateSourceDialog, self).__init__(parent)
+        self.setWindowTitle(self.tr(u'New requirement source'))
+
+    def _create_form(self):
+        """Implements the base class method to create a suitable form.
+        """
+        name_label = QtGui.QLabel(self.tr('Name'), self)
+        self._name_input = QtGui.QLineEdit(self)
+        self.layout().addRow(name_label, self._name_input)
+
+    def accept(self):
+        """Extracts the information provided by the user in the input form and
+        populates the internal 'data' dictionary for the parent to use later.
+        """
+        self.data = {'source_name': self._name_input.text()}
+        super(CreateSourceDialog, self).accept()
