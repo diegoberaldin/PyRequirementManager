@@ -7,16 +7,12 @@ access point to all database sessions.
 """
 
 from contextlib import contextmanager
-import logging
 import os
 
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-
-# a logger
-_LOG = logging.getLogger('src.model.database')
 # hidden directory where the database will be stored
 _DB_DIR = os.path.join(os.path.expanduser('~'), '.reqmanager')
 # name of the database file
@@ -44,7 +40,6 @@ def get_session():
         yield session
         session.commit()
     except sqlalchemy.exc.SQLAlchemyError as exc:
-        _LOG.exception(exc)
         session.rollback()
         raise exc
     finally:

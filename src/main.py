@@ -3,15 +3,11 @@
 """This executable module is the application single entry point.
 """
 
-import logging.config
 import sys
 
 from PySide import QtCore, QtGui
 
 from src import controller, gui, model
-
-# location of the logging configuration file
-_LOGCONF = 'log.conf'
 
 
 class Application(QtGui.QApplication):
@@ -23,7 +19,6 @@ class Application(QtGui.QApplication):
     def run(self):
         """Initializes the controller and shows the main view.
         """
-        logging.config.fileConfig(_LOGCONF)
         model.initialize_db()
         model.dal.initialize_sources()
         self._controller = controller.ApplicationController()
