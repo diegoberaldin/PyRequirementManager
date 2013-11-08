@@ -136,6 +136,7 @@ class RequirementDisplay(ItemDisplay):
         if self.item.req_id != new_req_id:
             self.fire_event.emit('update_requirement_id',
                     {'req_id': self.item.req_id, 'new_req_id': new_req_id})
+            self.item.req_id = new_req_id
         if self.item.description != new_description:
             self.fire_event.emit('update_requirement_description',
                     {'req_id': new_req_id,
@@ -213,6 +214,7 @@ class UseCaseDisplay(ItemDisplay):
         if self.item.uc_id != new_uc_id:
             self.fire_event.emit('update_use_case_id',
                     {'uc_id': self.item.uc_id, 'new_uc_id': new_uc_id})
+            self.item.uc_id = new_uc_id
         if self.item.description != new_description:
             self.fire_event.emit('update_use_case_description',
                     {'uc_id': new_uc_id, 'description': new_description})
@@ -266,6 +268,7 @@ class TestDisplay(ItemDisplay):
         if self.item.test_id != new_test_id:
             self.fire_event.emit('update_test_id',
                     {'test_id': self.item.test_id, 'new_test_id': new_test_id})
+            self.item.test_id = new_test_id
         if self.item.description != new_description:
             self.fire_event.emit('update_test_description',
                     {'test_id': new_test_id, 'description': new_description})
