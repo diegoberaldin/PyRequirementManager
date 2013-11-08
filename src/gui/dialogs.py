@@ -70,7 +70,7 @@ class CreateRequirementDialog(CreateItemDialog, EnumTranslator):
                 mdl.get_all_source_names()))
         parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
-        req_id_list = mdl.get_all_req_ids()
+        req_id_list = mdl.get_all_requirement_ids()
         req_id_list.insert(0, None)
         self._parent_id_input.setModel(QtGui.QStringListModel(req_id_list))
         # puts it all together

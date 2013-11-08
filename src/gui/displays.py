@@ -86,7 +86,7 @@ class RequirementDisplay(ItemDisplay):
                 sources.index(self.item.source.name))
         parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
-        requirement_ids = mdl.get_all_req_ids()
+        requirement_ids = mdl.get_all_requirement_ids()
         requirement_ids.insert(0, None)
         requirement_ids.remove(self.item.req_id)
         self._parent_id_input.setModel(QtGui.QStringListModel(requirement_ids))

@@ -10,7 +10,7 @@ from src.model import dataaccess as dal
 # expose constants
 from src.model.constants import TYPE_LIST, PRIORITY_LIST
 # read-only functions for the views
-from src.model.dataaccess import (get_all_req_ids, get_all_uc_ids,
+from src.model.dataaccess import (get_all_requirement_ids, get_all_uc_ids,
     get_all_test_ids, get_all_source_names, get_source_id, get_requirement,
     get_test, get_use_case, get_source)
 # required by the controller at startup

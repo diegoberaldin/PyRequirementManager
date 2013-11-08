@@ -380,7 +380,7 @@ class TestModel(ItemModel):
     def _get_top_level_items(cls):
         """Returns an iterable of all those tests that have no parent.
         """
-        return dal.get_top_level_test_ids()
+        return dal.get_all_test_ids()()
 
 
 class SourceModel(ItemModel):
@@ -399,7 +399,7 @@ class SourceModel(ItemModel):
     def _get_top_level_items(cls):
         """Returns an iterable of all requirement sources.
         """
-        return dal.get_source_ids()
+        return dal.get_all_source_ids()
 
 
 class ItemListModel(QtCore.QAbstractItemModel):
