@@ -175,13 +175,13 @@ class ItemModel(QtCore.QAbstractItemModel):
         """
         item = self._search_forest(item_id)
         index = self.createIndex(0, 0, item)
-        parent = item.parent
         parent_index = self.parent(index)
-        # remove the item from its parent's children
+        parent = item.parent
         if parent:
             row = parent.children.index(item)
         else:
             row = self._item_forest.index(item)
+        # remove the item from its parent's children
         self.beginRemoveRows(parent_index, row, row)
         if parent:
             parent.children.remove(item)
