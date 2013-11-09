@@ -127,7 +127,7 @@ class CreateUseCaseDialog(CreateItemDialog):
         self._description_input = QtGui.QPlainTextEdit(self)
         parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
-        uc_id_list = mdl.get_all_uc_ids()
+        uc_id_list = mdl.get_all_use_case_ids()
         uc_id_list.insert(0, None)
         self._parent_id_input.setModel(
                 QtGui.QStringListModel(uc_id_list))
