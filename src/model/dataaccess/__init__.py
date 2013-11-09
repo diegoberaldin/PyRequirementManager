@@ -21,7 +21,8 @@ from src.model.dataaccess.source import (create_source, delete_source,
 from src.model.dataaccess.test import (create_test, delete_test, get_test,
     update_test_description, update_test_id, get_all_test_ids,
     get_all_test_names_and_descriptions, update_test_associations)
-from src.model.dataaccess.usecase import (create_uc, delete_uc, get_all_uc_ids,
-    get_all_uc_names_and_descriptions, get_use_case, get_use_case_children_ids,
-    get_top_level_use_case_ids, update_use_case_associations,
-    update_use_case_description, update_use_case_id, update_use_case_parent_id)
+from src.model.dataaccess.usecase import (create_use_case, delete_use_case,
+    get_all_use_case_ids, get_all_uc_names_and_descriptions, get_use_case,
+    get_use_case_children_ids, get_top_level_use_case_ids, update_use_case_id,
+    update_use_case_associations, update_use_case_description,
+    update_use_case_parent_id)

@@ -74,7 +74,7 @@ def _handle_create_use_case(data):
     """Creates a new use case and resets the use case model.
     """
     with _extreme_caution():
-        mdl.dal.create_uc(**data)
+        mdl.dal.create_use_case(**data)
         mdl.get_use_case_model().append_child_to_parent(
                 data['uc_id'], data['parent_id'])
 
@@ -104,7 +104,7 @@ def _handle_delete_test(test_id):
 def _handle_delete_use_case(uc_id):
     """Deletes a use case and rebuilds all models basing on the DB content.
     """
-    mdl.dal.delete_uc(uc_id)
+    mdl.dal.delete_use_case(uc_id)
     mdl.get_use_case_model().delete_item(uc_id)
 
 

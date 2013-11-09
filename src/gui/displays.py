@@ -181,7 +181,7 @@ class UseCaseDisplay(ItemDisplay):
         self._description_input.setPlainText(self.item.description)
         parent_id_label = QtGui.QLabel(self.tr('Parent'), self)
         self._parent_id_input = QtGui.QComboBox(self)
-        uc_ids = mdl.get_all_uc_ids()
+        uc_ids = mdl.get_all_use_case_ids()
         uc_ids.insert(0, None)
         uc_ids.remove(self.item.uc_id)
         self._parent_id_input.setModel(QtGui.QStringListModel(uc_ids))
