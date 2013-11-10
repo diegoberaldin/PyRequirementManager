@@ -48,7 +48,8 @@ def get_all_requirement_names_and_descriptions():
     with db.get_session() as session:
         return [{'id': req[0], 'description': req[1]}
                 for req in
-                session.query(Requirement.req_id, Requirement.description)]
+                session.query(Requirement.req_id,
+                Requirement.description).order_by(Requirement.req_id)]
 
 
 def get_requirement(req_id):

@@ -40,7 +40,8 @@ def get_all_test_names_and_descriptions():
     with db.get_session() as session:
         return [{'id': test[0], 'description': test[1]}
                 for test in
-                session.query(SystemTest.test_id, SystemTest.description)]
+                session.query(SystemTest.test_id,
+                SystemTest.description).order_by(SystemTest.test_id)]
 
 
 def get_test(test_id):

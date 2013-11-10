@@ -41,7 +41,8 @@ def get_all_uc_names_and_descriptions():
     """
     with db.get_session() as session:
         return [{'id': uc[0], 'description': uc[1]}
-                for uc in session.query(UseCase.uc_id, UseCase.description)]
+                for uc in session.query(UseCase.uc_id,
+                UseCase.description).order_by(UseCase.uc_id)]
 
 
 def get_use_case(uc_id):
