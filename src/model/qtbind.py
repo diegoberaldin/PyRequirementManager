@@ -199,6 +199,7 @@ class ItemModel(QtCore.QAbstractItemModel):
             self._item_forest.append(child)
         self.endInsertRows()
         del item
+        self.layoutChanged.emit()
 
     def update_item_parent(self, item_id, new_parent_id):
         """This is responsible for moving some piece of tree around in the
@@ -238,6 +239,7 @@ class ItemModel(QtCore.QAbstractItemModel):
         # reparents the item
         item.parent = new_parent
         self.endMoveRows()
+        self.layoutChanged.emit()
 
     @classmethod
     def _get_top_level_items(cls):
