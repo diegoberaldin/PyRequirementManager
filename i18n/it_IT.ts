@@ -4,55 +4,63 @@
 <context>
     <name>CreateRequirementDialog</name>
     <message>
-        <location filename="src/gui/dialogs.py" line="38"/>
+        <location filename="src/gui/dialogs.py" line="51"/>
         <source>New requirement</source>
         <translation>Nuovo requisito</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="44"/>
+        <location filename="src/gui/dialogs.py" line="58"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="47"/>
+        <location filename="src/gui/dialogs.py" line="61"/>
         <source>Description</source>
         <translation>Descrizione</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="49"/>
+        <location filename="src/gui/dialogs.py" line="63"/>
         <source>Type</source>
         <translation>Tipologia</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="52"/>
+        <location filename="src/gui/dialogs.py" line="66"/>
         <source>Priority</source>
         <translation>Priorità</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="56"/>
+        <location filename="src/gui/dialogs.py" line="69"/>
         <source>Source</source>
         <translation>Fonte</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="60"/>
+        <location filename="src/gui/dialogs.py" line="73"/>
         <source>Parent</source>
         <translation>Genitore</translation>
     </message>
 </context>
 <context>
+    <name>CreateSourceDialog</name>
+    <message>
+        <location filename="src/gui/dialogs.py" line="203"/>
+        <source>Name</source>
+        <translation>Nome</translation>
+    </message>
+</context>
+<context>
     <name>CreateTestDialog</name>
     <message>
-        <location filename="src/gui/dialogs.py" line="171"/>
+        <location filename="src/gui/dialogs.py" line="170"/>
         <source>New test</source>
         <translation>Nuovo test</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="177"/>
+        <location filename="src/gui/dialogs.py" line="176"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="179"/>
+        <location filename="src/gui/dialogs.py" line="178"/>
         <source>Description</source>
         <translation>Descrizione</translation>
     </message>
@@ -60,22 +68,22 @@
 <context>
     <name>CreateUseCaseDialog</name>
     <message>
-        <location filename="src/gui/dialogs.py" line="113"/>
+        <location filename="src/gui/dialogs.py" line="119"/>
         <source>New use case</source>
         <translation>Nuovo caso d&apos;uso</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="119"/>
+        <location filename="src/gui/dialogs.py" line="125"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="122"/>
+        <location filename="src/gui/dialogs.py" line="128"/>
         <source>Description</source>
         <translation>Descrizione</translation>
     </message>
     <message>
-        <location filename="src/gui/dialogs.py" line="124"/>
+        <location filename="src/gui/dialogs.py" line="130"/>
         <source>Parent</source>
         <translation>Genitore</translation>
     </message>
@@ -121,17 +129,17 @@
 <context>
     <name>ItemListModel</name>
     <message>
-        <location filename="src/model/qtbind.py" line="415"/>
+        <location filename="src/model/qtbind.py" line="447"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="src/model/qtbind.py" line="417"/>
+        <location filename="src/model/qtbind.py" line="449"/>
         <source>Description</source>
         <translation>Descrizione</translation>
     </message>
     <message>
-        <location filename="src/model/qtbind.py" line="420"/>
+        <location filename="src/model/qtbind.py" line="452"/>
         <source>Linked</source>
         <translation>Associato</translation>
     </message>
@@ -139,7 +147,7 @@
 <context>
     <name>ItemModel</name>
     <message>
-        <location filename="src/model/qtbind.py" line="264"/>
+        <location filename="src/model/qtbind.py" line="277"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
@@ -147,63 +155,136 @@
 <context>
     <name>MainWidget</name>
     <message>
-        <location filename="src/gui/window.py" line="66"/>
+        <location filename="src/gui/window.py" line="121"/>
         <source>Create new item (Ctrl+N)</source>
         <translation>Crea nuovo elemento (Ctrl+N)</translation>
     </message>
     <message>
-        <location filename="src/gui/window.py" line="71"/>
+        <location filename="src/gui/window.py" line="126"/>
         <source>Save item (Ctrl+S)</source>
         <translation>Salva elemento (Ctrl+S)</translation>
     </message>
     <message>
-        <location filename="src/gui/window.py" line="77"/>
+        <location filename="src/gui/window.py" line="132"/>
         <source>Delete item (Del)</source>
         <translation>Elimina elemento (Del)</translation>
     </message>
     <message>
-        <location filename="src/gui/window.py" line="90"/>
+        <location filename="src/gui/window.py" line="139"/>
         <source>Requirements</source>
         <translation>Requisiti</translation>
     </message>
     <message>
-        <location filename="src/gui/window.py" line="90"/>
+        <location filename="src/gui/window.py" line="140"/>
         <source>Use cases</source>
         <translation>Casi d&apos;uso</translation>
     </message>
     <message>
-        <location filename="src/gui/window.py" line="91"/>
+        <location filename="src/gui/window.py" line="140"/>
         <source>Tests</source>
         <translation>Test</translation>
     </message>
     <message>
-        <location filename="src/gui/window.py" line="101"/>
+        <location filename="src/gui/window.py" line="160"/>
         <source>Show</source>
         <translation>Visualizza</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="140"/>
+        <source>Sources</source>
+        <translation>Fonti</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="281"/>
+        <source>No source</source>
+        <translation>Nessuna fonte</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="283"/>
+        <source>You have to create at least one sourcein order to create a new requirement</source>
+        <translation>Deve essere stata creata almeno una fonte per creare un nuovo requisito</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="src/gui/window.py" line="42"/>
+        <location filename="src/gui/window.py" line="73"/>
         <source>Error</source>
         <translation>Errore</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="49"/>
+        <source>Use case list</source>
+        <translation>Lista dei casi d&apos;uso</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="53"/>
+        <source>Requirement list</source>
+        <translation>Lista dei requisiti</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="57"/>
+        <source>Use case - requirements</source>
+        <translation>Tracciamento casi d&apos;uso - requisiti</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="62"/>
+        <source>Print</source>
+        <translation>Stampa</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="65"/>
+        <source>Tracking</source>
+        <translation>Tracciamenti</translation>
+    </message>
+    <message>
+        <location filename="src/gui/window.py" line="94"/>
+        <source>Select location</source>
+        <translation>Seleziona percorso</translation>
+    </message>
+</context>
+<context>
+    <name>PrintRequirementDialog</name>
+    <message>
+        <location filename="src/gui/dialogs.py" line="234"/>
+        <source>Type</source>
+        <translation>Tipologia</translation>
+    </message>
+    <message>
+        <location filename="src/gui/dialogs.py" line="237"/>
+        <source>Priority</source>
+        <translation>Priorità</translation>
+    </message>
+    <message>
+        <location filename="src/gui/dialogs.py" line="240"/>
+        <source>Path</source>
+        <translation>Percorso</translation>
+    </message>
+    <message>
+        <location filename="src/gui/dialogs.py" line="243"/>
+        <source>Browse</source>
+        <translation>Sfoglia</translation>
+    </message>
+    <message>
+        <location filename="src/gui/dialogs.py" line="258"/>
+        <source>Choose location</source>
+        <translation>Seleziona percorso</translation>
     </message>
 </context>
 <context>
     <name>RequirementDisplay</name>
     <message>
-        <location filename="src/gui/displays.py" line="63"/>
+        <location filename="src/gui/displays.py" line="64"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="66"/>
+        <location filename="src/gui/displays.py" line="67"/>
         <source>Description</source>
         <translation>Descrizione</translation>
     </message>
     <message>
-        <location filename="src/gui/displays.py" line="69"/>
+        <location filename="src/gui/displays.py" line="70"/>
         <source>Priority</source>
         <translation>Priorità</translation>
     </message>
@@ -231,6 +312,14 @@
         <location filename="src/gui/displays.py" line="102"/>
         <source>Tests</source>
         <translation>Test</translation>
+    </message>
+</context>
+<context>
+    <name>SourceDisplay</name>
+    <message>
+        <location filename="src/gui/displays.py" line="288"/>
+        <source>Name</source>
+        <translation>Nome</translation>
     </message>
 </context>
 <context>

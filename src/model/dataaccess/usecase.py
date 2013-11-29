@@ -54,6 +54,15 @@ def get_use_case(uc_id):
         return uc
 
 
+def get_use_case_associated_requirements(uc_id):
+    """Returns a list of all the requirement IDs that are associated to the
+    use case with the given ID.
+    """
+    with db.get_session() as session:
+        uc = session.query(UseCase).filter(UseCase.uc_id == uc_id).one()
+        return [r.req_id for r in uc.requirements]
+
+
 def get_top_level_use_case_ids():
     """Returns a list of all those use case IDs corresponding to items that
     have no parent (top level items).

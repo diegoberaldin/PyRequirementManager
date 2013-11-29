@@ -12,12 +12,15 @@ TRANSLATIONS += i18n/en_US.ts i18n/it_IT.ts
 
 SOURCES += src/main.py \
            src/controller/events.py \
+           src/controller/printers.py \
            src/gui/dialogs.py \
            src/gui/displays.py \
            src/gui/util.py \
            src/gui/window.py \
            src/model/constants.py \
-           src/model/dataaccess.py \
+           src/model/dataaccess/usecase.py \
+           src/model/dataaccess/requirement.py \
+           src/model/dataaccess/test.py \
            src/model/database.py \
            src/model/mapping.py \
            src/model/qtbind.py

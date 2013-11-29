@@ -41,6 +41,16 @@ def get_all_requirement_ids():
         return [r[0] for r in session.query(Requirement.req_id)]
 
 
+def get_all_requirement_ids_spec(req_type, priority):
+    """Returns the list of requirement IDs having the given type and priority.
+    """
+    with db.get_session() as session:
+        return [r[0] for r in
+                session.query(Requirement.req_id).filter(
+                Requirement.req_type == req_type,
+                Requirement.priority == priority)]
+
+
 def get_all_requirement_names_and_descriptions():
     """Returns a list of dictionaries containing the 'id' and 'description'
     keys corresponding to all the requirements that have been created.

@@ -9,6 +9,8 @@ from PySide import QtCore, QtGui
 from src import model as mdl
 from src.gui.util import EnumTranslator
 
+import os
+
 
 class CreateItemDialog(QtGui.QDialog):
     """Abstract base class for all dialogs used to create new items (i.e.
@@ -208,3 +210,63 @@ class CreateSourceDialog(CreateItemDialog):
         """
         self.data = {'source_name': self._name_input.text()}
         super(CreateSourceDialog, self).accept()
+
+
+class PrintRequirementDialog(QtGui.QDialog):
+    def __init__(self, parent):
+        super(PrintRequirementDialog, self).__init__(parent)
+        self.setLayout(QtGui.QVBoxLayout(self))
+        self.setMinimumWidth(350)
+        self._create_form()
+        # button box
+        button_box = QtGui.QDialogButtonBox(self)
+        button_box.addButton(
+                QtGui.QDialogButtonBox.Ok).clicked.connect(self.accept)
+        button_box.addButton(
+                QtGui.QDialogButtonBox.Cancel).clicked.connect(self.reject)
+
+        self.layout().addWidget(button_box, 3, 2)
+
+    def _create_form(self):
+        et = EnumTranslator()
+        form = QtGui.QWidget(self)
+        form.setLayout(QtGui.QGridLayout(form))
+        type_label = QtGui.QLabel(self.tr('Type'), self)
+        self._type_input = QtGui.QComboBox(self)
+        self._type_input.setModel(et.get_translated_type_list_model())
+        priority_label = QtGui.QLabel(self.tr('Priority'), self)
+        self._priority_input = QtGui.QComboBox(self)
+        self._priority_input.setModel(et.get_translated_priority_list_model())
+        path_label = QtGui.QLabel(self.tr('Path'), self)
+        self._path_input = QtGui.QLineEdit(self)
+        self._path_input.setEnabled(False)
+        choose_button = QtGui.QPushButton(self.tr('Browse'), self)
+        choose_button.clicked.connect(self._handle_choose_button_clicked)
+        # puts it all together
+        form.layout().addWidget(type_label, 0, 0)
+        form.layout().addWidget(self._type_input, 0, 1)
+        form.layout().addWidget(priority_label, 1, 0)
+        form.layout().addWidget(self._priority_input, 1, 1)
+        form.layout().addWidget(path_label, 2, 0)
+        form.layout().addWidget(self._path_input, 2, 1)
+        form.layout().addWidget(choose_button, 2, 2)
+        self.layout().addWidget(form)
+
+    @QtCore.Slot()
+    def _handle_choose_button_clicked(self):
+        path = QtGui.QFileDialog.getSaveFileName(self,
+                    self.tr('Choose location'), os.path.expanduser('~'))
+        if path[0]:
+            self._path_input.setText(path[0])
+        else:
+            self._path_input.setText('')
+
+    def accept(self):
+        if self._path_input.text():
+            self.req_type = mdl.TYPE_LIST[self._type_input.currentIndex()]
+            self.priority = mdl.PRIORITY_LIST[
+                    self._priority_input.currentIndex()]
+            self.path = self._path_input.text()
+            super(PrintRequirementDialog, self).accept()
+        else:
+            self.reject()

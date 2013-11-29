@@ -12,6 +12,7 @@ from PySide import QtCore
 from sqlalchemy.exc import SQLAlchemyError
 
 from src import model as mdl, gui
+from src.controller import printers as pnt
 
 
 class ApplicationController(QtCore.QObject):
@@ -106,6 +107,25 @@ def _handle_delete_use_case(uc_id):
     """
     mdl.dal.delete_use_case(uc_id)
     mdl.get_use_case_model().delete_item(uc_id)
+
+
+def _handle_print_requirement_list(req_type, priority, target_path):
+    """Prints the list of the requirements of the given type with the given
+    priority to the given target file.
+    """
+    pnt.RequirementTablePrinter(req_type, priority, target_path).run()
+
+
+def _handle_print_use_case_list(target_path):
+    """Prints the list of the use cases to the given target file.
+    """
+    pnt.UseCaseTablePrinter(target_path).run()
+
+
+def _handle_print_uc_req_track(target_path):
+    """Prints a table with the use case requirement tracking to the given file.
+    """
+    pnt.UseCaseRequirementTrackPrinter(target_path).run()
 
 
 def _handle_update_requirement_associations(req_id, newly_associated_use_cases,

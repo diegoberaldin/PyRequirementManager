@@ -9,6 +9,8 @@ from PySide import QtCore, QtGui
 from src import APPNAME, model as mdl
 from src.gui import dialogs as dlg, displays as dsp
 
+import os
+
 # window default width
 _WINDOW_WIDTH = 900
 # window default height
@@ -34,16 +36,65 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self, controller):
         super(MainWindow, self).__init__()
         self.setWindowTitle(APPNAME)
+        self._create_actions()
+        self._create_menus()
         # inserts the main widget in the window layout
-        mw = MainWidget(self)
-        mw.fire_event.connect(controller.handle_event)
-        self.setCentralWidget(mw)
+        self._main_widget = MainWidget(self)
+        self._main_widget.fire_event.connect(controller.handle_event)
+        self.setCentralWidget(self._main_widget)
         self.setMinimumSize(_WINDOW_WIDTH, _WINDOW_HEIGHT)
+
+    def _create_actions(self):
+        self._print_uc_list_action = QtGui.QAction(
+                self.tr('Use case list'), self)
+        self._print_uc_list_action.triggered.connect(
+                self._handle_print_use_case_list)
+        self._print_req_list_action = QtGui.QAction(
+                self.tr('Requirement list'), self)
+        self._print_req_list_action.triggered.connect(
+                self._handle_print_req_list)
+        self._print_uc_req_track = QtGui.QAction(
+                self.tr('Use case - requirements'), self)
+        self._print_uc_req_track.triggered.connect(
+                self._handle_print_uc_req_track)
+
+    def _create_menus(self):
+        print_menu = QtGui.QMenu(self.tr('Print'), self)
+        print_menu.addAction(self._print_uc_list_action)
+        print_menu.addAction(self._print_req_list_action)
+        track_menu = QtGui.QMenu(self.tr('Tracking'), print_menu)
+        track_menu.addAction(self._print_uc_req_track)
+        print_menu.addMenu(track_menu)
+        self.menuBar().addMenu(print_menu)
 
     def display_message(self, message):
         """Displays an error message in the main user interface.
         """
         QtGui.QMessageBox.critical(self, self.tr('Error'), message)
+
+    @QtCore.Slot()
+    def _handle_print_use_case_list(self):
+        ret = QtGui.QFileDialog.getSaveFileName(self,
+                    self.tr('Select location'), os.path.expanduser('~'))
+        if ret[0]:
+            self._main_widget.fire_event.emit('print_use_case_list',
+                {'target_path': ret[0]})
+
+    @QtCore.Slot()
+    def _handle_print_req_list(self):
+        dialog = dlg.PrintRequirementDialog(self)
+        if dialog.exec_():
+            self._main_widget.fire_event.emit('print_requirement_list',
+                    {'target_path': dialog.path, 'req_type': dialog.req_type,
+                     'priority': dialog.priority})
+
+    @QtCore.Slot()
+    def _handle_print_uc_req_track(self):
+        ret = QtGui.QFileDialog.getSaveFileName(self,
+                    self.tr('Select location'), os.path.expanduser('~'))
+        if ret[0]:
+            self._main_widget.fire_event.emit('print_uc_req_track',
+                    {'target_path': ret[0]})
 
 
 class MainWidget(QtGui.QWidget):
